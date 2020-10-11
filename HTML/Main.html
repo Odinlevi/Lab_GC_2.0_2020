@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <link href="../Style/main_style.css" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8">
+
+</head>
+<body>
+<table id="main" class="column-full-screen">
+    <tr id="container">
+        <td colspan="3" id="left" class="left">
+            <table style="text-align:center;" id="edit">
+                <tr id="row1">
+                    <td id="row1 col1">
+                        <img id="img cube" height="50" src="../pictures/Download-Cube-PNG-Transparent-Image.png" width="50">
+                    </td>
+                    <td id="row1 col2">
+                        <img id="img cone" height="50" src="../pictures/kindpng_1813840.png" width="50">
+                    </td>
+                    <td id="row1 col3">
+
+                        <img id="img sphere" height="50" src="../pictures/toppng.com-sphere-1024x1024.png" width="50">
+                    </td>
+                </tr>
+                <tr id="row2">
+                    <td colspan="3" id="col1">
+                        <p align="middle">Translation:</p>
+                    </td>
+                </tr>
+                <tr id="row3">
+                    <td colspan="3">
+                        <table style="text-align:center;">
+                            <tr>
+                                <td>
+                                    <input type="range" id="translation cube x range" oninput="main()">
+                                    <br>
+                                    <label>x:     </label> <input type="text" id="translation cube x text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="translation cone x range" oninput="main()">
+                                    <br>
+                                    <label>x:     </label><input type="text" id="translation cone x text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="translation sphere x range" oninput="main()">
+                                    <br>
+                                    <label>x:     </label><input type="text" id="translation sphere x text" size="1">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="range" id="translation cube y range" oninput="main()">
+                                    <br>
+                                    <label>y:     </label> <input type="text" id="translation cube y text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="translation cone y range" oninput="main()">
+                                    <br>
+                                    <label>y:     </label><input type="text" id="translation cone y text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="translation sphere y range" oninput="main()">
+                                    <br>
+                                    <label>y:     </label><input type="text" id="translation sphere y text" size="1">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="range" id="translation cube z range" oninput="main()">
+                                    <br>
+                                    <label>z:     </label> <input type="text" id="translation cube z text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="translation cone z range" oninput="main()">
+                                    <br>
+                                    <label>z:     </label><input type="text" id="translation cone z text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="translation sphere z range" oninput="main()">
+                                    <br>
+                                    <label>z:     </label><input type="text" id="translation sphere z text" size="1">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="row4">
+                    <td colspan="3" id="row4 col1">
+                        Rotation:
+                    </td>
+                </tr>
+                <tr id="row5">
+                    <td colspan="3">
+                        <table style="text-align:center;">
+                            <tr>
+                                <td>
+                                    <input type="range" id="rotation cube x range" oninput="main()">
+                                    <br>
+                                    <label>x:     </label> <input type="text" id="rotation cube x text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="rotation cone x range" oninput="main()">
+                                    <br>
+                                    <label>x:     </label><input type="text" id="rotation cone x text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="rotation sphere x range" oninput="main()">
+                                    <br>
+                                    <label>x:     </label><input type="text" id="rotation sphere x text" size="1">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="range" id="rotation cube y range" oninput="main()">
+                                    <br>
+                                    <label>y:     </label> <input type="text" id="rotation cube y text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="rotation cone y range" oninput="main()">
+                                    <br>
+                                    <label>y:     </label><input type="text" id="rotation cone y text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="rotation sphere y range" oninput="main()">
+                                    <br>
+                                    <label>y:     </label><input type="text" id="rotation sphere y text" size="1">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="range" id="rotation cube z range" oninput="main()">
+                                    <br>
+                                    <label>z:     </label> <input type="text" id="rotation cube z text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="rotation cone z range" oninput="main()">
+                                    <br>
+                                    <label>z:     </label><input type="text" id="rotation cone z text" size="1">
+                                </td>
+                                <td>
+                                    <input type="range" id="rotation sphere z range" oninput="main()">
+                                    <br>
+                                    <label>z:     </label><input type="text" id="rotation sphere z text" size="1">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="row6">
+                    <td colspan="3" id="row6 col1">
+                        <p align="middle">Scaling:</p>
+                    </td>
+                </tr>
+                <tr style="text-align: center" id="row7">
+                    <td>
+                        <input type="range" id="scaling cube range" oninput="main()">
+                        <br>
+                        <input type="text" id="scaling cube text" size="1">
+                    </td>
+                    <td>
+                        <input type="range" id="scaling cone range" oninput="main()">
+                        <br>
+                        <input type="text" id="scaling cone text" size="1">
+                    </td>
+                    <td>
+                        <input type="range" id="scaling sphere range" oninput="main()">
+                        <br>
+                        <input type="text" id="scaling sphere text" size="1">
+                    </td>
+                </tr>
+                <tr id="row8">
+                    <td colspan="3" id="row8 col1">
+                        <p align="middle">Add element:</p>
+                    </td>
+                </tr>
+                <tr id="row9">
+                    <td style="text-align: center">
+                        <input value=" + " type="button" oninput="main()">
+                    </td>
+                    <td style="text-align: center">
+                        <input value=" + " type="button" oninput="main()">
+                    </td>
+                    <td style="text-align: center">
+                        <input value=" + " type="button" oninput="main()">
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td id="right">
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
