@@ -1,3 +1,5 @@
+"use strict";
+
 let objectNames = [];
 
 let objectId = 0;
@@ -42,25 +44,35 @@ function DeleteElement() {
     if (chosenElement === null) {
         return;
     }
+    Main.DeleteObject(chosenElement.id);
     objectNames.splice(chosenElement.id, 1);
     chosenElement.parentNode.removeChild(chosenElement);
     chosenElement = null;
-
-    Main.DeleteObject(objectId);
 }
 
 function ChooseObject() {
     Array.from(document.getElementsByClassName("active"))
         .forEach(element => element.classList.remove("active"));
     chosenElement = this;
-    this.classList.add("active");
+    chosenElement.classList.add("active");
 
     // UPDATE
+    UpdateChosenElement(chosenElement);
+}
+
+function UpdateChosenElement(chosenElement) {
+    const objectId = chosenElement.id;
+    const object = Main.objects[objectId];
+
+    InternalTranslationObjectValue(object.position);
+    InternalRotationObjectValue(object.rotation);
+    InternalScaleObjectValue(object.scale[0]);
 }
 
 // endregion
 
-function ExternalVectorValue(item) {
+// region Object Update
+function ExternalVector3Value(item) {
     var r_x = document.getElementsByClassName(item + " " + "x range")[0];
     var r_y = document.getElementsByClassName(item + " " + "y range")[0];
     var r_z = document.getElementsByClassName(item + " " + "z range")[0];
@@ -71,17 +83,37 @@ function ExternalVectorValue(item) {
     i_y.value = r_y.value;
     i_z.value = r_z.value;
     //console.log([i_x.value, i_y.value, i_z.value]);
-    return [i_x.value, i_y.value, i_z.value];
+    return [parseFloat(i_x.value), parseFloat(i_y.value), parseFloat(i_z.value)];
 }
 
 function ExternalTranslationObjectValue() {
-    ExternalVectorValue('object translation');
+    ExternalVector3Value('object translation');
     if (chosenElement === null)
         return;
 
-    Main.objects[chosenElement.id].position = ExternalVectorValue('object translation');
+    Main.objects[chosenElement.id].position = ExternalVector3Value('object translation');
 }
 
+function ExternalRotationObjectValue() {
+    ExternalVector3Value('object rotation');
+    if (chosenElement === null)
+        return;
+
+    Main.objects[chosenElement.id].rotation = ExternalVector3Value('object rotation');
+}
+
+function ExternalScaleObjectValue() {
+    //ExternalVector3Value('object rotation');
+    var r = document.getElementsByClassName("object scale range")[0];
+    var i = document.getElementsByClassName("object scale text")[0];
+
+    i.value = r.value;
+
+    if (chosenElement === null)
+        return;
+
+    Main.objects[chosenElement.id].scale = [parseFloat(i.value), parseFloat(i.value), parseFloat(i.value)];
+}
 
 
 function InternalVector3Value(item, v3) {
@@ -97,10 +129,44 @@ function InternalVector3Value(item, v3) {
     i_z.value = r_z.value = v3[2];
 }
 
+function InternalTranslationObjectValue(v3) {
+    InternalVector3Value("object translation", v3);
+}
+
+function InternalRotationObjectValue(v3) {
+    InternalVector3Value("object rotation", v3);
+}
+
+function InternalScaleObjectValue(v1) {
+    var r = document.getElementsByClassName("object scale range")[0];
+    var i = document.getElementsByClassName("object scale text")[0];
+
+    i.value = r.value = v1;
+}
+
+// endregion
+
+// region Camera
+
+function UtilityCameraValue() {
+    let vec3 = ExternalVector3Value("camera utility");
+    Main.camera.zNear = vec3[0];
+    Main.camera.zFar = vec3[1];
+    Main.camera.fov = vec3[2];
+}
+
+function TranslationCameraValue() {
+    Main.camera.position = ExternalVector3Value("camera translation");
+}
+
+function RotationCameraValue() {
+    Main.camera.rotation = ExternalVector3Value("camera rotation");
+}
+
+// endregion
 
 function UI() {
-
-
+    Main.construct();
 }
 
 document.addEventListener("DOMContentLoaded", function() {

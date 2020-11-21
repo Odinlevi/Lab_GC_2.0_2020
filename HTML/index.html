@@ -21,7 +21,7 @@
                     <label>Add .obj:</label>
                     <input id="inputObj" type="file" accept=".obj" oninput="CreateElement('obj')">
                 </div>
-                <input type="button" value="check" id="dovloeb" onclick="Main.UpdateCanvas()">
+                <input type="button" value="check" id="dovloeb" onclick="Main.CheckObjects()">
             </div>
             <hr>
             <div class="block objects_list">
@@ -52,9 +52,9 @@
                     <label>Rotation:</label>
                 </div>
                 <div class="block rotation">
-                    <input value="0" min="-100" max="100" type="range" class="object rotation x range" oninput="RotationObjectValue()">
-                    <input value="0" min="-100" max="100" type="range" class="object rotation y range" oninput="RotationObjectValue()">
-                    <input value="0" min="-100" max="100" type="range" class="object rotation z range" oninput="RotationObjectValue()">
+                    <input value="0" min="-6.3" max="6.3" step="0.1" type="range" class="object rotation x range" oninput="ExternalRotationObjectValue()">
+                    <input value="0" min="-6.3" max="6.3" step="0.1" type="range" class="object rotation y range" oninput="ExternalRotationObjectValue()">
+                    <input value="0" min="-6.3" max="6.3" step="0.1" type="range" class="object rotation z range" oninput="ExternalRotationObjectValue()">
                     <br>
                     <label>x:  </label><input value="0" type="text" class="object rotation x text" size="1">
                     <label>y:  </label><input value="0" type="text" class="object rotation y text" size="1">
@@ -64,9 +64,9 @@
                     <label>Scale:</label>
                 </div>
                 <div class="block scale">
-                    <input value="0" min="-100" max="100" type="range" class="object rotation x range" oninput="ScaleObjectValue()">
+                    <input value="1" min="0" max="15" step="0.1" type="range" class="object scale range" oninput="ExternalScaleObjectValue()">
                     <br>
-                    <input value="0" type="text" class="rotation x text" size="1">
+                    <input value="1" type="text" class="object scale text" size="1">
                 </div>
                 <div class="subblock_name">
                     <label>Add texture:</label>
@@ -84,33 +84,33 @@
                     <label>Camera:</label>
                 </div>
                 <div class="block rotation">
-                    <input value="0" min="-100" max="100" type="range" class="camera zNear range" oninput="zNearCameraValue()">
-                    <input value="0" min="-100" max="100" type="range" class="camera zFar range" oninput="zFarCameraValue()">
-                    <input value="0" min="-100" max="100" type="range" class="camera FOV range" oninput="FOVCameraValue()">
+                    <input value="1" min="1" max="1000" step="1" type="range" class="camera zNear utility x range" oninput="UtilityCameraValue()">
+                    <input value="2000" min="1" max="4000" step="1" type="range" class="camera zFar utility y range" oninput="UtilityCameraValue()">
+                    <input value="60" min="1" max="180" step="1" type="range" class="camera FOV utility z range" oninput="UtilityCameraValue()">
                     <br>
-                    <label>zNear:</label><input value="0" type="text" class="camera zNear text" size="1">
-                    <label>zFar:</label><input value="0" type="text" class="camera zFar text" size="1">
-                    <label>FOV:</label><input value="0" type="text" class="camera FOV text" size="1">
+                    <label>zNear:</label><input value="0" type="text" class="camera zNear utility x text" size="1">
+                    <label>zFar:</label><input value="0" type="text" class="camera zFar utility y text" size="1">
+                    <label>FOV:</label><input value="0" type="text" class="camera FOV utility z text" size="1">
                 </div>
                 <div class="subblock_name">
                     <label>Translation:</label>
                 </div>
                 <div class="block translation">
-                    <input value="0" min="-100" max="100" type="range" class="camera translation x range" oninput="TranslationCameraValue()">
-                    <input value="0" min="-100" max="100" type="range" class="camera translation y range" oninput="TranslationCameraValue()">
-                    <input value="0" min="-100" max="100" type="range" class="camera translation z range" oninput="TranslationCameraValue()">
+                    <input value="0" min="-1000" max="1000" step="1" type="range" class="camera translation x range" oninput="TranslationCameraValue()">
+                    <input value="0" min="-1000" max="1000" step="1" type="range" class="camera translation y range" oninput="TranslationCameraValue()">
+                    <input value="100" min="-1000" max="1000" step="1" type="range" class="camera translation z range" oninput="TranslationCameraValue()">
                     <br>
                     <label>x:  </label><input value="0" type="text" class="camera translation x text" size="1">
                     <label>y:  </label><input value="0" type="text" class="camera translation y text" size="1">
-                    <label>z:  </label><input value="0" type="text" class="camera translation z text" size="1">
+                    <label>z:  </label><input value="100" type="text" class="camera translation z text" size="1">
                 </div>
                 <div class="subblock_name">
                     <label>Rotation:</label>
                 </div>
                 <div class="block rotation">
-                    <input value="0" min="-100" max="100" type="range" class="camera rotation x range" oninput="RotationCameraValue()">
-                    <input value="0" min="-100" max="100" type="range" class="camera rotation y range" oninput="RotationCameraValue()">
-                    <input value="0" min="-100" max="100" type="range" class="camera rotation z range" oninput="RotationCameraValue()">
+                    <input value="0" min="0" max="360" step="1" type="range" class="camera rotation x range" oninput="RotationCameraValue()">
+                    <input value="0" min="0" max="360" step="1" type="range" class="camera rotation y range" oninput="RotationCameraValue()">
+                    <input value="0" min="0" max="360" step="1" type="range" class="camera rotation z range" oninput="RotationCameraValue()">
                     <br>
                     <label>x:  </label><input value="0" type="text" class="camera rotation x text" size="1">
                     <label>y:  </label><input value="0" type="text" class="camera rotation y text" size="1">
@@ -165,8 +165,46 @@
             <canvas class="canvas"></canvas>
         </div>
     </div>
+
+    <!-- vertex shader -->
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+        attribute vec4 a_position;
+        attribute vec4 a_color;
+
+        uniform mat4 u_matrix;
+
+        varying vec4 v_color;
+
+        void main() {
+          // Multiply the position by the matrix.
+          gl_Position = u_matrix * a_position;
+
+          // Pass the color to the fragment shader.
+          v_color = a_color;
+        }
+    </script>
+        <!-- fragment shader -->
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+        precision mediump float;
+
+        // Passed in from the vertex shader.
+        varying vec4 v_color;
+
+        uniform vec4 u_colorMult;
+
+        void main() {
+           gl_FragColor = v_color * u_colorMult;
+        }
+    </script>
+
     <script src="../src/UI.js"></script>
-    <script src="../src/Main.js"></script>
     <script src="../src/object.js"></script>
+    <script src="../src/camera.js"></script>
+    <script src="../src/webgl-utils.js"></script>
+    <script src="../src/m4.js"></script>
+    <script src="../src/primitives.js"></script>
+    <script src="../src/objInfo.js"></script>
+    <script src="../src/v3.js"></script>
+    <script src="../src/Main.js"></script>
 </body>
 </html>
