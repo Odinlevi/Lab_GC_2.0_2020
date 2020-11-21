@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+.column {
+    float: left;
+    height: 100%;
+}
+
+.block {
+    float: top;
+    width: 100%;
+}
+
+.block:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.left {
+    width: 30%;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.right {
+    width: 70%;
+    height: 100vh;
+}
+
+.create_objects {
+    height: 100px;
+}
+
+.objects_list {
+    height: 300px;
+}
+
+.object_manager {
+    height: 300px;
+}
+
+.block.camera {
+    height: 250px;
+}
+
+.light_sources {
+
+}
+
+.light_source_1 {
+    width: 50%;
+    height: 100%;
+}
+
+.light_source_2 {
+    width: 50%;
+    height: 100%;
+}
+
+.canvas {
+    background-color: #857491;
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}
+
+.scrollit {
+    overflow:scroll;
+    overflow-x: hidden;
+    height:100vh;
+}
+
+.active {
+    color: red;
+    background-color: pink;
+    border-style:inset;
+}

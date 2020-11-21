@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="7e642e91-e03f-42c6-a426-54f6252bfed7" name="Default Changelist" comment="" />
+    <list default="true" id="7e642e91-e03f-42c6-a426-54f6252bfed7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/HTML/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Style/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/object.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HTML/Main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Style/main_style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pictures/Download-Cube-PNG-Transparent-Image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pictures/kindpng_1813840.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pictures/toppng.com-sphere-1024x1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,6 +45,9 @@
         <option value="JavaScript File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1igvhJ0AY4ZkcZqfDOhxoL04AxC" />
   <component name="ProjectViewState">
@@ -32,6 +65,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -48,17 +82,38 @@
       <option name="presentableId" value="Default" />
       <updated>1602342166384</updated>
       <workItem from="1602342167477" duration="3891000" />
-      <workItem from="1602408441720" duration="7525000" />
+      <workItem from="1602408441720" duration="15358000" />
+      <workItem from="1605790923957" duration="19085000" />
+      <workItem from="1605817851620" duration="2216000" />
+      <workItem from="1605880802834" duration="20231000" />
+      <workItem from="1605908945389" duration="895000" />
+      <workItem from="1605909882898" duration="661000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="586" y="198" key="#Inspections" timestamp="1602409061378">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="586" y="198" key="#Inspections/0.0.1920.1040@0.0.1920.1040" timestamp="1602409061378" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1602423211219">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1602423211219" />
   </component>
 </project>

@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>3D</title>
+    <link href="../Style/style.css" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class="block">
+        <div class="left column">
+            <div class="block create_objects">
+                <div class="block_name">
+                    <label>Add objects:</label>
+                </div>
+                <div class="block create standard">
+                    <input value=" Create cube " type="button" class="create cube" onclick="CreateElement('cube')">
+                    <input value=" Create cone " type="button" class="create cone" onclick="CreateElement('cone')">
+                    <input value="Create sphere" type="button" class="create sphere" onclick="CreateElement('sphere')">
+                </div>
+                <div class="block create obj">
+                    <label>Add .obj:</label>
+                    <input id="inputObj" type="file" accept=".obj" oninput="CreateElement('obj')">
+                </div>
+                <input type="button" value="check" id="dovloeb" onclick="Main.UpdateCanvas()">
+            </div>
+            <hr>
+            <div class="block objects_list">
+                <div class="block_name">
+                    <label>Objects list:</label>
+                </div>
+                <div class="block container">
+                </div>
+            </div>
+            <hr>
+            <div class="block object_manager">
+                <div class="block_name">
+                    <label>Object manager:</label>
+                </div>
+                <div class="subblock_name">
+                    <label>Translation:</label>
+                </div>
+                <div class="block translation">
+                    <input value="0" min="-100" max="100" type="range" class="object translation x range" oninput="ExternalTranslationObjectValue()">
+                    <input value="0" min="-100" max="100" type="range" class="object translation y range" oninput="ExternalTranslationObjectValue()">
+                    <input value="0" min="-100" max="100" type="range" class="object translation z range" oninput="ExternalTranslationObjectValue()">
+                    <br>
+                    <label>x:  </label><input value="0" type="text" class="object translation x text" size="1">
+                    <label>y:  </label><input value="0" type="text" class="object translation y text" size="1">
+                    <label>z:  </label><input value="0" type="text" class="object translation z text" size="1">
+                </div>
+                <div class="subblock_name">
+                    <label>Rotation:</label>
+                </div>
+                <div class="block rotation">
+                    <input value="0" min="-100" max="100" type="range" class="object rotation x range" oninput="RotationObjectValue()">
+                    <input value="0" min="-100" max="100" type="range" class="object rotation y range" oninput="RotationObjectValue()">
+                    <input value="0" min="-100" max="100" type="range" class="object rotation z range" oninput="RotationObjectValue()">
+                    <br>
+                    <label>x:  </label><input value="0" type="text" class="object rotation x text" size="1">
+                    <label>y:  </label><input value="0" type="text" class="object rotation y text" size="1">
+                    <label>z:  </label><input value="0" type="text" class="object rotation z text" size="1">
+                </div>
+                <div class="subblock_name">
+                    <label>Scale:</label>
+                </div>
+                <div class="block scale">
+                    <input value="0" min="-100" max="100" type="range" class="object rotation x range" oninput="ScaleObjectValue()">
+                    <br>
+                    <input value="0" type="text" class="rotation x text" size="1">
+                </div>
+                <div class="subblock_name">
+                    <label>Add texture:</label>
+                </div>
+                <div class="block add_texture">
+                    <input type="file">
+                </div>
+                <div class="block delete_object">
+                    <input value="Delete object" type="button" class="delete_object" onclick="DeleteElement()">
+                </div>
+            </div>
+            <hr>
+            <div class="block camera">
+                <div class="block_name">
+                    <label>Camera:</label>
+                </div>
+                <div class="block rotation">
+                    <input value="0" min="-100" max="100" type="range" class="camera zNear range" oninput="zNearCameraValue()">
+                    <input value="0" min="-100" max="100" type="range" class="camera zFar range" oninput="zFarCameraValue()">
+                    <input value="0" min="-100" max="100" type="range" class="camera FOV range" oninput="FOVCameraValue()">
+                    <br>
+                    <label>zNear:</label><input value="0" type="text" class="camera zNear text" size="1">
+                    <label>zFar:</label><input value="0" type="text" class="camera zFar text" size="1">
+                    <label>FOV:</label><input value="0" type="text" class="camera FOV text" size="1">
+                </div>
+                <div class="subblock_name">
+                    <label>Translation:</label>
+                </div>
+                <div class="block translation">
+                    <input value="0" min="-100" max="100" type="range" class="camera translation x range" oninput="TranslationCameraValue()">
+                    <input value="0" min="-100" max="100" type="range" class="camera translation y range" oninput="TranslationCameraValue()">
+                    <input value="0" min="-100" max="100" type="range" class="camera translation z range" oninput="TranslationCameraValue()">
+                    <br>
+                    <label>x:  </label><input value="0" type="text" class="camera translation x text" size="1">
+                    <label>y:  </label><input value="0" type="text" class="camera translation y text" size="1">
+                    <label>z:  </label><input value="0" type="text" class="camera translation z text" size="1">
+                </div>
+                <div class="subblock_name">
+                    <label>Rotation:</label>
+                </div>
+                <div class="block rotation">
+                    <input value="0" min="-100" max="100" type="range" class="camera rotation x range" oninput="RotationCameraValue()">
+                    <input value="0" min="-100" max="100" type="range" class="camera rotation y range" oninput="RotationCameraValue()">
+                    <input value="0" min="-100" max="100" type="range" class="camera rotation z range" oninput="RotationCameraValue()">
+                    <br>
+                    <label>x:  </label><input value="0" type="text" class="camera rotation x text" size="1">
+                    <label>y:  </label><input value="0" type="text" class="camera rotation y text" size="1">
+                    <label>z:  </label><input value="0" type="text" class="camera rotation z text" size="1">
+                </div>
+            </div>
+            <hr>
+            <div class="block light_sources">
+                <div class="block_name">
+                    <label>Light sources:</label>
+                </div>
+                <div class="column light_source_1">
+                    <div class="subblock_name">
+                        <label>Light source 1:</label>
+                        <div class="subblock_name">
+                            <label>Translation:</label>
+                        </div>
+                        <div class="block translation">
+                            <label>x:  </label><input value="0" type="text" class="translation x text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation x range" oninput="TranslationLightSource1Value()">
+                            <br>
+                            <label>y:  </label><input value="0" type="text" class="translation y text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation y range" oninput="TranslationLightSource1Value()">
+                            <br>
+                            <label>z:  </label><input value="0" type="text" class="translation z text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation z range" oninput="TranslationLightSource1Value()">
+                        </div>
+                    </div>
+                </div>
+                <div class="column light_source_2">
+                    <div class="subblock_name">
+                        <label>Light source 2:</label>
+                        <div class="subblock_name">
+                            <label>Translation:</label>
+                        </div>
+                        <div class="block translation">
+                            <label>x:  </label><input value="0" type="text" class="translation x text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation x range" oninput="TranslationLightSource1Value()">
+                            <br>
+                            <label>y:  </label><input value="0" type="text" class="translation y text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation y range" oninput="TranslationLightSource1Value()">
+                            <br>
+                            <label>z:  </label><input value="0" type="text" class="translation z text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation z range" oninput="TranslationLightSource1Value()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right column">
+            <canvas class="canvas"></canvas>
+        </div>
+    </div>
+    <script src="../src/UI.js"></script>
+    <script src="../src/Main.js"></script>
+    <script src="../src/object.js"></script>
+</body>
+</html>
