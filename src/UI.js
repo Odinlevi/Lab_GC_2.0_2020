@@ -27,15 +27,19 @@ function CreateElement(name) {
     if (name === 'obj') {
         const reader = new FileReader();
 
-        reader.onload = function(e) {
-            objText = e.target.result;
-            //UI();
-            Main.CreateObj(name, objText);
+        try {
+            reader.onload = function(e) {
+                objText = e.target.result;
+
+                Main.CreateObj(name, objText);
+            }
+            reader.readAsText(document.getElementById('inputObj').files[0]);
         }
-        reader.readAsText(document.getElementById('inputObj').files[0]);
+        catch(err) {
+            console.log(err.message);
+        }
     }
     else {
-        //UI();
         Main.CreateObj(name, objText);
     }
 }
@@ -142,6 +146,17 @@ function InternalScaleObjectValue(v1) {
     var i = document.getElementsByClassName("object scale text")[0];
 
     i.value = r.value = v1;
+}
+
+// endregion
+
+// region Object Set Texture
+
+function SetTexture() {
+    if (chosenElement === null)
+        return;
+
+    Main.SetTexture(chosenElement.id, (document.getElementById('inputTex').files[0]));
 }
 
 // endregion

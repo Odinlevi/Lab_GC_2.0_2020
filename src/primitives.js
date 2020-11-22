@@ -262,7 +262,7 @@
             ? webglUtils.getNumElementsFromNonIndexedArrays(vertices)
             : vertices.position.numElements;
 
-        const vColors = utils.createAugmentedTypedArray(
+        const vColors = webglUtils.createAugmentedTypedArray(
             4, numElements, Uint8Array
         );
 

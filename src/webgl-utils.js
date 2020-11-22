@@ -1360,6 +1360,7 @@
         setAttributes: setAttributes,
         setBuffersAndAttributes: setBuffersAndAttributes,
         setUniforms: setUniforms,
+        getNumElementsFromNonIndexedArrays: getNumElementsFromNonIndexedArrays,
     };
 
 }));

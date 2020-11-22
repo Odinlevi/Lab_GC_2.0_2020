@@ -27,7 +27,7 @@ class Main {
             case "sphere":
                 return primitives.createSphereWithVertexColorsBufferInfo(Main.gl, 10, 20, 10);
             case "obj":
-                return objInfo.createObj(Main.gl, objText)[0]; //TODO: return .obj buffer
+                return objInfo.createObj(Main.gl, objText)[0];
         }
     }
 
@@ -84,15 +84,74 @@ class Main {
                 Main.programInfo,
                 Main.BuffersInfo(name, objText),
                 {
-                    u_colorMult: [0.5, 1, 0.5, 1],
-                    u_matrix: m4.identity()
+                    u_colorMult: [1, 1, 1, 1],
+                    u_matrix: m4.identity(),
+                    u_texture: Main.DefaultTexture(),
                 },
             )
         );
     }
 
     static DeleteObject(objectId) {
-            Main.objects.splice(objectId, 1);
+        Main.objects.splice(objectId, 1);
+    }
+
+    static DefaultTexture() {
+        const texture = Main.gl.createTexture();
+        Main.gl.bindTexture(Main.gl.TEXTURE_2D, texture);
+        Main.gl.texImage2D(Main.gl.TEXTURE_2D, 0, Main.gl.LUMINANCE, 1, 1, 0, Main.gl.LUMINANCE, Main.gl.UNSIGNED_BYTE,
+            new Uint8Array([
+                0xFF
+            ])
+        );
+        Main.gl.generateMipmap(Main.gl.TEXTURE_2D);
+        Main.gl.texParameteri(Main.gl.TEXTURE_2D, Main.gl.TEXTURE_MAG_FILTER, Main.gl.NEAREST);
+
+        return texture;
+    }
+
+    static SetTexture(objectId, imageContent) {
+        let object = Main.objects[objectId];
+
+        const image = new Image();
+        const reader = new FileReader();
+
+        let texture = Main.gl.createTexture();
+        Main.gl.bindTexture(Main.gl.TEXTURE_2D, texture);
+        Main.gl.texImage2D(Main.gl.TEXTURE_2D, 0, Main.gl.RGBA, 1, 1, 0, Main.gl.RGBA, Main.gl.UNSIGNED_BYTE,
+            new Uint8Array([0, 0, 255, 255]));
+
+        try {
+            reader.onload = function(e) {
+
+                image.src = e.target.result;
+
+                image.onload = function() {
+                    Main.gl.bindTexture(Main.gl.TEXTURE_2D, texture);
+                    Main.gl.pixelStorei(Main.gl.UNPACK_FLIP_Y_WEBGL, true);
+                    Main.gl.texImage2D(Main.gl.TEXTURE_2D, 0, Main.gl.RGBA, Main.gl.RGBA,Main.gl.UNSIGNED_BYTE, image);
+
+                    if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+                        Main.gl.generateMipmap(Main.gl.TEXTURE_2D);
+                    } else {
+                        Main.gl.texParameteri(Main.gl.TEXTURE_2D, Main.gl.TEXTURE_WRAP_S, Main.gl.CLAMP_TO_EDGE);
+                        Main.gl.texParameteri(Main.gl.TEXTURE_2D, Main.gl.TEXTURE_WRAP_T, Main.gl.CLAMP_TO_EDGE);
+                        Main.gl.texParameteri(Main.gl.TEXTURE_2D, Main.gl.TEXTURE_MIN_FILTER, Main.gl.LINEAR);
+                    }
+
+                    object.uniforms.u_texture = texture;
+                };
+
+                function isPowerOf2(value) {
+                    return (value & (value - 1)) === 0;
+                }
+            }
+
+            reader.readAsDataURL(imageContent);
+        }
+        catch(err) {
+            console.log(err.message);
+        }
     }
 
     static CheckObjects() {
@@ -126,9 +185,6 @@ class Main {
             const programInfo = object.programInfo;
             const bufferInfo = object.bufferInfo;
 
-            //console.log(programInfo);
-            //console.log(bufferInfo);
-
             let bindBuffers = false;
 
             if (programInfo !== lastUsedProgramInfo) {
@@ -144,7 +200,6 @@ class Main {
             }
             webglUtils.setUniforms(programInfo, object.uniforms);
             Main.gl.drawArrays(Main.gl.TRIANGLES, 0, bufferInfo.numElements);
-
         });
 
 

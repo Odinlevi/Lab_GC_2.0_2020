@@ -179,7 +179,7 @@ class objInfo {
         return object.geometries.map(({data}) => {
 
 
-            data = primitives.makeRandomVertexColors(data, {
+            data = primitives.makeDefaultVertexColors(data, {
                 vertsPerColor: 6
             });
 
