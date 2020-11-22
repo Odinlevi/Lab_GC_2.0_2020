@@ -27,7 +27,7 @@ class Main {
             case "sphere":
                 return primitives.createSphereWithVertexColorsBufferInfo(Main.gl, 10, 20, 10);
             case "obj":
-                return objInfo.createObj(Main.gl, objText); //TODO: return .obj buffer
+                return objInfo.createObj(Main.gl, objText)[0]; //TODO: return .obj buffer
         }
     }
 
@@ -93,7 +93,6 @@ class Main {
 
     static DeleteObject(objectId) {
             Main.objects.splice(objectId, 1);
-            //console.log(objectId + " deleted");
     }
 
     static CheckObjects() {
@@ -108,8 +107,6 @@ class Main {
         Main.gl.enable(Main.gl.DEPTH_TEST);
 
         Main.gl.clear(Main.gl.COLOR_BUFFER_BIT | Main.gl.DEPTH_BUFFER_BIT);
-
-        //camera = CameraUpdateValues(camera); TODO camera update
 
         var cameraProperties = Main.CalculateCamera(Main.gl, Main.camera, Main.degToRad(1));
         var cameraMatrix = m4.lookAt(cameraProperties.cameraPosition, cameraProperties.target, cameraProperties.up);
@@ -128,6 +125,10 @@ class Main {
         Main.objects.forEach(function(object) {
             const programInfo = object.programInfo;
             const bufferInfo = object.bufferInfo;
+
+            //console.log(programInfo);
+            //console.log(bufferInfo);
+
             let bindBuffers = false;
 
             if (programInfo !== lastUsedProgramInfo) {
@@ -138,6 +139,7 @@ class Main {
             }
             if (bindBuffers || bufferInfo !== lastUsedBufferInfo) {
                 lastUsedBufferInfo = bufferInfo;
+
                 webglUtils.setBuffersAndAttributes(Main.gl, programInfo, bufferInfo);
             }
             webglUtils.setUniforms(programInfo, object.uniforms);
@@ -149,4 +151,3 @@ class Main {
         requestAnimationFrame(Main.DrawScene);
     }
 }
-
