@@ -189,12 +189,6 @@ class Main {
         }
     }
 
-    static CheckObjects() {
-        console.log(Main.objects);
-        console.log(Main.firstLight);
-        console.log(Main.secondLight);
-    }
-
     static DrawScene() {
         webglUtils.resizeCanvasToDisplaySize(Main.gl.canvas);
         Main.gl.viewport(0, 0, Main.gl.canvas.width, Main.gl.canvas.height);

@@ -1,4 +1,5 @@
 "use strict";
+
 class m4 {
 
     static MatType = Float32Array;

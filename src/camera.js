@@ -8,7 +8,6 @@ class camera {
         this.position = [0, 0, 100];
         this.rotation = [0, 0, 0];
         this.targetSub = [0, 0, -100];
-            //target: [0, 0, 0],
         this.up = new v3(0, 1, 0);
         }
 }

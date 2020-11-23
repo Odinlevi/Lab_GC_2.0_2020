@@ -180,8 +180,6 @@ function RotationCameraValue() {
 
 // region Light
 
-//TODO: Shininess Update
-
 function TranslationLightSource1Value() {
     Main.firstLight.position = ExternalVector3Value('translation light_source_1');
 }
