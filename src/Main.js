@@ -13,48 +13,19 @@ class Main {
             position: [-15, 0, 0],
             color: [1, 1, 1],
 
-            shininess: 20,
+            shininess: 10,
             attenuation: .1,
-
-            /*
-            object: Main.CreateObj(
-                Main.shapes.sphere,
-                Main.lightObjects
-            ),
-                objectScale: new vector3(.2, .2, .2)
-             */
         }
 
         Main.secondLight = {
             position: [15, 0, 0],
             color: [1, 1, 1],
 
-            shininess: 20,
+            shininess: 10,
             attenuation: .1,
-
-            /*
-            object: Main.CreateObj(
-                Main.shapes.sphere,
-                Main.lightObjects
-            ),
-                objectScale: new vector3(.2, .2, .2)
-             */
         }
 
         Main.lightSourceObjects.push(Main.firstLight.object, Main.secondLight.object);
-
-        /*
-        Main.lightPosition = Main.gl.getUniformLocation(
-            Main.programInfo.program,
-            "u_lightPosition"
-        );
-
-
-        Main.lightTarget = Main.gl.getUniformLocation(
-            Main.programInfo.program,
-            "u_lightTarget"
-        );
-        */
 
         if (!Main.gl) {
             return;
@@ -131,7 +102,6 @@ class Main {
                 Main.programInfo,
                 Main.BuffersInfo(name, objText),
                 {
-                    u_colorMult: [1, 1, 1, 1],
                     u_matrix: m4.identity(),
                     u_texture: Main.DefaultTexture(),
 
@@ -142,14 +112,14 @@ class Main {
 
                     u_lightMult: 1,
 
-                    u_firstLightPosition: [20, 0, 20],
+                    u_firstLightPosition: [-15, 0, 0],
                     u_firstLightColor: [1, 1, 1],
-                    u_firstLightShininess: 20,
+                    u_firstLightShininess: 10,
                     u_firstLightAttenuation: .1,
 
-                    u_secondLightPosition: [-20, 0, 0],
+                    u_secondLightPosition: [15, 0, 0],
                     u_secondLightColor: [1, 1, 1],
-                    u_secondLightShininess: 20,
+                    u_secondLightShininess: 10,
                     u_secondLightAttenuation: .1,
                 },
                 1
@@ -246,17 +216,17 @@ class Main {
                 object.uniforms.u_matrix = m4.multiply(viewProjectionMatrix, object.uniforms.u_world);
                 object.uniforms.u_worldInverse = m4.inverse(object.uniforms.u_world);
                 object.uniforms.u_worldInverse = m4.transpose(object.uniforms.u_worldInverse);
-                object.uniforms.u_ambientColor = [.2, .2, .2]; //camera ambient color
+                object.uniforms.u_ambientColor = [.2, .2, .2];
                 object.uniforms.u_lightMult = object.lightMult;
 
                 object.uniforms.u_firstLightPosition = Main.firstLight.position
                 object.uniforms.u_firstLightColor = Main.firstLight.color;
 
-                object.uniforms.u_firstdLightShininess = Main.firstLight.shininess;
-                object.uniforms.u_firstdLightAttenuation = Main.firstLight.attenuation;
+                object.uniforms.u_firstLightShininess = Main.firstLight.shininess;
+                object.uniforms.u_firstLightAttenuation = Main.firstLight.attenuation;
 
                 object.uniforms.u_secondLightPosition = Main.secondLight.position;
-                object.uniforms.u_firstLightColor = Main.secondLight.color;
+                object.uniforms.u_secondLightColor = Main.secondLight.color;
 
                 object.uniforms.u_secondLightShininess = Main.secondLight.shininess;
                 object.uniforms.u_secondLightAttenuation = Main.secondLight.attenuation;

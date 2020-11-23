@@ -1,23 +1,21 @@
+'use strict';
+
 /**
- * Various functions to make simple primitives
- *
- * @module primitives
+ * Array of the indices of corners of each face of a cube.
+ * @type {Array.<number[]>}
  */
-(function(root, factory) {  // eslint-disable-line
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['./webgl-utils', './3d-math'], factory);
-    } else {
-        // Browser globals
-        root.primitives = factory.call(root);
-    }
-}(this, function(webglUtils, m4) {
-    'use strict';
+const CUBE_FACE_INDICES = [
+    [3, 7, 5, 1], // right
+    [6, 2, 0, 4], // left
+    [6, 7, 3, 2], // ??
+    [0, 1, 5, 4], // ??
+    [7, 6, 4, 5], // front
+    [2, 3, 1, 0], // back
+];
 
-    webglUtils = webglUtils || this.webglUtils;
-    m4 = m4 || this.m4 || math3d;
+class primitives {
 
-    function allButIndices(name) {
+    static allButIndices(name) {
         return name !== 'indices';
     }
 
@@ -27,7 +25,7 @@
      * @return {Object.<string, TypedArray>} The deindexed vertices
      * @memberOf module:primitives
      */
-    function deindexVertices(vertices) {
+    static deindexVertices(vertices) {
         const indices = vertices.indices;
         const newVertices = {};
         const numElements = indices.length;
@@ -46,7 +44,7 @@
             newVertices[channel] = dstBuffer;
         }
 
-        Object.keys(vertices).filter(allButIndices).forEach(expandToUnindexed);
+        Object.keys(vertices).filter(primitives.allButIndices).forEach(expandToUnindexed);
 
         return newVertices;
     }
@@ -57,7 +55,7 @@
      * @return {Object.<string, TypedArray>} The flattened vertices (same as was passed in)
      * @memberOf module:primitives
      */
-    function flattenNormals(vertices) {
+    static flattenNormals(vertices) {
         if (vertices.indices) {
             throw 'can\'t flatten normals of indexed vertices. deindex them first';
         }
@@ -107,18 +105,18 @@
         return vertices;
     }
 
-    function applyFuncToV3Array(array, matrix, fn) {
+    static applyFuncToV3Array(array, matrix, fn) {
         const len = array.length;
         const tmp = new Float32Array(3);
         for (let ii = 0; ii < len; ii += 3) {
             fn(matrix, [array[ii], array[ii + 1], array[ii + 2]], tmp);
-            array[ii    ] = tmp[0];
+            array[ii] = tmp[0];
             array[ii + 1] = tmp[1];
             array[ii + 2] = tmp[2];
         }
     }
 
-    function transformNormal(mi, v, dst) {
+    static transformNormal(mi, v, dst) {
         dst = dst || new Float32Array(3);
         const v0 = v[0];
         const v1 = v[1];
@@ -138,8 +136,8 @@
      * @return {number[]|TypedArray} the same array that was passed in
      * @memberOf module:primitives
      */
-    function reorientDirections(array, matrix) {
-        applyFuncToV3Array(array, matrix, m4.transformDirection);
+    static reorientDirections(array, matrix) {
+        primitives.applyFuncToV3Array(array, matrix, m4.transformDirection);
         return array;
     }
 
@@ -151,8 +149,8 @@
      * @return {number[]|TypedArray} the same array that was passed in
      * @memberOf module:primitives
      */
-    function reorientNormals(array, matrix) {
-        applyFuncToV3Array(array, m4.inverse(matrix), transformNormal);
+    static reorientNormals(array, matrix) {
+        primitives.applyFuncToV3Array(array, m4.inverse(matrix), primitives.transformNormal);
         return array;
     }
 
@@ -164,8 +162,8 @@
      * @return {number[]|TypedArray} the same array that was passed in
      * @memberOf module:primitives
      */
-    function reorientPositions(array, matrix) {
-        applyFuncToV3Array(array, matrix, m4.transformPoint);
+    static reorientPositions(array, matrix) {
+        primitives.applyFuncToV3Array(array, matrix, m4.transformPoint);
         return array;
     }
 
@@ -179,84 +177,23 @@
      * @return {Object.<string, (number[]|TypedArray)>} same arrays that were passed in.
      * @memberOf module:primitives
      */
-    function reorientVertices(arrays, matrix) {
-        Object.keys(arrays).forEach(function(name) {
+    static reorientVertices(arrays, matrix) {
+        Object.keys(arrays).forEach(function (name) {
             const array = arrays[name];
             if (name.indexOf('pos') >= 0) {
-                reorientPositions(array, matrix);
+                primitives.reorientPositions(array, matrix);
             } else if (name.indexOf('tan') >= 0 || name.indexOf('binorm') >= 0) {
-                reorientDirections(array, matrix);
+                primitives.reorientDirections(array, matrix);
             } else if (name.indexOf('norm') >= 0) {
-                reorientNormals(array, matrix);
+                primitives.reorientNormals(array, matrix);
             }
         });
         return arrays;
     }
 
-    /**
-     * creates a random integer between 0 and range - 1 inclusive.
-     * @param {number} range
-     * @return {number} random value between 0 and range - 1 inclusive.
-     */
-    function randInt(range) {
-        return Math.random() * range | 0;
-    }
 
-    /**
-     * Used to supply random colors
-     * @callback RandomColorFunc
-     * @param {number} ndx index of triangle/quad if unindexed or index of vertex if indexed
-     * @param {number} channel 0 = red, 1 = green, 2 = blue, 3 = alpha
-     * @return {number} a number from 0 to 255
-     * @memberOf module:primitives
-     */
-
-    /**
-     * @typedef {Object} RandomVerticesOptions
-     * @property {number} [vertsPerColor] Defaults to 3 for non-indexed vertices
-     * @property {module:primitives.RandomColorFunc} [rand] A function to generate random numbers
-     * @memberOf module:primitives
-     */
-
-    /**
-     * Creates an augmentedTypedArray of random vertex colors.
-     * If the vertices are indexed (have an indices array) then will
-     * just make random colors. Otherwise assumes they are triangless
-     * and makes one random color for every 3 vertices.
-     * @param {Object.<string, augmentedTypedArray>} vertices Vertices as returned from one of the createXXXVertices functions.
-     * @param {module:primitives.RandomVerticesOptions} [options] options.
-     * @return {Object.<string, augmentedTypedArray>} same vertices as passed in with `color` added.
-     * @memberOf module:primitives
-     */
-    function makeRandomVertexColors(vertices, options) {
+    static makeDefaultVertexColors(vertices, options) {
         options = options || {};
-        const numElements = vertices.position.numElements;
-        const vcolors = webglUtils.createAugmentedTypedArray(4, numElements, Uint8Array);
-        const rand = options.rand || function(ndx, channel) {
-            return channel < 3 ? randInt(256) : 255;
-        };
-        vertices.color = vcolors;
-        if (vertices.indices) {
-            // just make random colors if index
-            for (let ii = 0; ii < numElements; ++ii) {
-                vcolors.push(rand(ii, 0), rand(ii, 1), rand(ii, 2), rand(ii, 3));
-            }
-        } else {
-            // make random colors per triangle
-            const numVertsPerColor = options.vertsPerColor || 3;
-            const numSets = numElements / numVertsPerColor;
-            for (let ii = 0; ii < numSets; ++ii) {
-                const color = [rand(ii, 0), rand(ii, 1), rand(ii, 2), rand(ii, 3)];
-                for (let jj = 0; jj < numVertsPerColor; ++jj) {
-                    vcolors.push(color);
-                }
-            }
-        }
-        return vertices;
-    }
-
-    function makeDefaultVertexColors(vertices, options) {
-        options = options || { };
 
         const numElements = vertices.position.numElements === undefined
             ? webglUtils.getNumElementsFromNonIndexedArrays(vertices)
@@ -297,8 +234,8 @@
      * creates a function that calls fn to create vertices and then
      * creates a buffers for them
      */
-    function createBufferFunc(fn) {
-        return function(gl) {
+    static createBufferFunc(fn) {
+        return function (gl) {
             const arrays = fn.apply(this, Array.prototype.slice.call(arguments, 1));
             return webglUtils.createBuffersFromArrays(gl, arrays);
         };
@@ -308,9 +245,9 @@
      * creates a function that calls fn to create vertices and then
      * creates a bufferInfo object for them
      */
-    function createBufferInfoFunc(fn) {
-        return function(gl) {
-            const arrays = fn.apply(null,  Array.prototype.slice.call(arguments, 1));
+    static createBufferInfoFunc(fn) {
+        return function (gl) {
+            const arrays = fn.apply(null, Array.prototype.slice.call(arguments, 1));
             return webglUtils.createBufferInfoFromArrays(gl, arrays);
         };
     }
@@ -328,7 +265,7 @@
      *         created plane vertices.
      * @memberOf module:primitives
      */
-    function createPlaneVertices(
+    static createPlaneVertices(
         width,
         depth,
         subdivisionsWidth,
@@ -378,7 +315,7 @@
             }
         }
 
-        const arrays = reorientVertices({
+        const arrays = primitives.reorientVertices({
             position: positions,
             normal: normals,
             texcoord: texcoords,
@@ -387,7 +324,7 @@
         return arrays;
     }
 
-    function createXYQuadVertices(size, xOffset, yOffset) {
+    static createXYQuadVertices(size, xOffset, yOffset) {
         size = size || 2;
         xOffset = xOffset || 0;
         yOffset = yOffset || 0;
@@ -397,9 +334,9 @@
                 numComponents: 2,
                 data: [
                     xOffset + -1 * size, yOffset + -1 * size,
-                    xOffset +  1 * size, yOffset + -1 * size,
-                    xOffset + -1 * size, yOffset +  1 * size,
-                    xOffset +  1 * size, yOffset +  1 * size,
+                    xOffset + 1 * size, yOffset + -1 * size,
+                    xOffset + -1 * size, yOffset + 1 * size,
+                    xOffset + 1 * size, yOffset + 1 * size,
                 ],
             },
             normal: [
@@ -414,7 +351,7 @@
                 0, 1,
                 1, 1,
             ],
-            indices: [ 0, 1, 2, 2, 1, 3 ],
+            indices: [0, 1, 2, 2, 1, 3],
         };
     }
 
@@ -437,7 +374,7 @@
      *         created plane vertices.
      * @memberOf module:primitives
      */
-    function createSphereVertices(
+    static createSphereVertices(
         radius,
         subdivisionsAxis,
         subdivisionsHeight,
@@ -462,8 +399,8 @@
         // ring of the sphere.
         const numVertices = (subdivisionsAxis + 1) * (subdivisionsHeight + 1);
         const positions = webglUtils.createAugmentedTypedArray(3, numVertices);
-        const normals   = webglUtils.createAugmentedTypedArray(3, numVertices);
-        const texCoords = webglUtils.createAugmentedTypedArray(2 , numVertices);
+        const normals = webglUtils.createAugmentedTypedArray(3, numVertices);
+        const texCoords = webglUtils.createAugmentedTypedArray(2, numVertices);
 
         // Generate the individual vertices in our vertex buffer.
         for (let y = 0; y <= subdivisionsHeight; y++) {
@@ -513,19 +450,6 @@
     }
 
     /**
-     * Array of the indices of corners of each face of a cube.
-     * @type {Array.<number[]>}
-     */
-    const CUBE_FACE_INDICES = [
-        [3, 7, 5, 1], // right
-        [6, 2, 0, 4], // left
-        [6, 7, 3, 2], // ??
-        [0, 1, 5, 4], // ??
-        [7, 6, 4, 5], // front
-        [2, 3, 1, 0], // back
-    ];
-
-    /**
      * Creates the vertices and indices for a cube. The
      * cube will be created around the origin. (-size / 2, size / 2)
      *
@@ -534,7 +458,7 @@
      *         created plane vertices.
      * @memberOf module:primitives
      */
-    function createCubeVertices(size) {
+    static createCubeVertices(size) {
         const k = size / 2;
 
         const cornerVertices = [
@@ -566,9 +490,9 @@
 
         const numVertices = 6 * 4;
         const positions = webglUtils.createAugmentedTypedArray(3, numVertices);
-        const normals   = webglUtils.createAugmentedTypedArray(3, numVertices);
-        const texCoords = webglUtils.createAugmentedTypedArray(2 , numVertices);
-        const indices   = webglUtils.createAugmentedTypedArray(3, 6 * 2, Uint16Array);
+        const normals = webglUtils.createAugmentedTypedArray(3, numVertices);
+        const texCoords = webglUtils.createAugmentedTypedArray(2, numVertices);
+        const indices = webglUtils.createAugmentedTypedArray(3, 6 * 2, Uint16Array);
 
         for (let f = 0; f < 6; ++f) {
             const faceIndices = CUBE_FACE_INDICES[f];
@@ -620,7 +544,7 @@
      *         created plane vertices.
      * @memberOf module:primitives
      */
-    function createTruncatedConeVertices(
+    static createTruncatedConeVertices(
         bottomRadius,
         topRadius,
         height,
@@ -643,9 +567,9 @@
 
         const numVertices = (radialSubdivisions + 1) * (verticalSubdivisions + 1 + extra);
         const positions = webglUtils.createAugmentedTypedArray(3, numVertices);
-        const normals   = webglUtils.createAugmentedTypedArray(3, numVertices);
+        const normals = webglUtils.createAugmentedTypedArray(3, numVertices);
         const texCoords = webglUtils.createAugmentedTypedArray(2, numVertices);
-        const indices   = webglUtils.createAugmentedTypedArray(3, radialSubdivisions * (verticalSubdivisions + extra) * 2, Uint16Array);
+        const indices = webglUtils.createAugmentedTypedArray(3, radialSubdivisions * (verticalSubdivisions + extra) * 2, Uint16Array);
 
         const vertsAroundEdge = radialSubdivisions + 1;
 
@@ -715,7 +639,7 @@
      * @param {number[]} [padding] value to add each entry with.
      * @return {number[]} the expanded rleData
      */
-    function expandRLEData(rleData, padding) {
+    static expandRLEData(rleData, padding) {
         padding = padding || [];
         const data = [];
         for (let ii = 0; ii < rleData.length; ii += 4) {
@@ -738,136 +662,136 @@
      *         created plane vertices.
      * @memberOf module:primitives
      */
-    function create3DFVertices() {
+    static create3DFVertices() {
 
         const positions = [
             // left column front
-            0,   0,  0,
-            0, 150,  0,
-            30,   0,  0,
-            0, 150,  0,
-            30, 150,  0,
-            30,   0,  0,
+            0, 0, 0,
+            0, 150, 0,
+            30, 0, 0,
+            0, 150, 0,
+            30, 150, 0,
+            30, 0, 0,
 
             // top rung front
-            30,   0,  0,
-            30,  30,  0,
-            100,   0,  0,
-            30,  30,  0,
-            100,  30,  0,
-            100,   0,  0,
+            30, 0, 0,
+            30, 30, 0,
+            100, 0, 0,
+            30, 30, 0,
+            100, 30, 0,
+            100, 0, 0,
 
             // middle rung front
-            30,  60,  0,
-            30,  90,  0,
-            67,  60,  0,
-            30,  90,  0,
-            67,  90,  0,
-            67,  60,  0,
+            30, 60, 0,
+            30, 90, 0,
+            67, 60, 0,
+            30, 90, 0,
+            67, 90, 0,
+            67, 60, 0,
 
             // left column back
-            0,   0,  30,
-            30,   0,  30,
-            0, 150,  30,
-            0, 150,  30,
-            30,   0,  30,
-            30, 150,  30,
+            0, 0, 30,
+            30, 0, 30,
+            0, 150, 30,
+            0, 150, 30,
+            30, 0, 30,
+            30, 150, 30,
 
             // top rung back
-            30,   0,  30,
-            100,   0,  30,
-            30,  30,  30,
-            30,  30,  30,
-            100,   0,  30,
-            100,  30,  30,
+            30, 0, 30,
+            100, 0, 30,
+            30, 30, 30,
+            30, 30, 30,
+            100, 0, 30,
+            100, 30, 30,
 
             // middle rung back
-            30,  60,  30,
-            67,  60,  30,
-            30,  90,  30,
-            30,  90,  30,
-            67,  60,  30,
-            67,  90,  30,
+            30, 60, 30,
+            67, 60, 30,
+            30, 90, 30,
+            30, 90, 30,
+            67, 60, 30,
+            67, 90, 30,
 
             // top
-            0,   0,   0,
-            100,   0,   0,
-            100,   0,  30,
-            0,   0,   0,
-            100,   0,  30,
-            0,   0,  30,
+            0, 0, 0,
+            100, 0, 0,
+            100, 0, 30,
+            0, 0, 0,
+            100, 0, 30,
+            0, 0, 30,
 
             // top rung right
-            100,   0,   0,
-            100,  30,   0,
-            100,  30,  30,
-            100,   0,   0,
-            100,  30,  30,
-            100,   0,  30,
+            100, 0, 0,
+            100, 30, 0,
+            100, 30, 30,
+            100, 0, 0,
+            100, 30, 30,
+            100, 0, 30,
 
             // under top rung
-            30,   30,   0,
-            30,   30,  30,
-            100,  30,  30,
-            30,   30,   0,
-            100,  30,  30,
-            100,  30,   0,
+            30, 30, 0,
+            30, 30, 30,
+            100, 30, 30,
+            30, 30, 0,
+            100, 30, 30,
+            100, 30, 0,
 
             // between top rung and middle
-            30,   30,   0,
-            30,   60,  30,
-            30,   30,  30,
-            30,   30,   0,
-            30,   60,   0,
-            30,   60,  30,
+            30, 30, 0,
+            30, 60, 30,
+            30, 30, 30,
+            30, 30, 0,
+            30, 60, 0,
+            30, 60, 30,
 
             // top of middle rung
-            30,   60,   0,
-            67,   60,  30,
-            30,   60,  30,
-            30,   60,   0,
-            67,   60,   0,
-            67,   60,  30,
+            30, 60, 0,
+            67, 60, 30,
+            30, 60, 30,
+            30, 60, 0,
+            67, 60, 0,
+            67, 60, 30,
 
             // right of middle rung
-            67,   60,   0,
-            67,   90,  30,
-            67,   60,  30,
-            67,   60,   0,
-            67,   90,   0,
-            67,   90,  30,
+            67, 60, 0,
+            67, 90, 30,
+            67, 60, 30,
+            67, 60, 0,
+            67, 90, 0,
+            67, 90, 30,
 
             // bottom of middle rung.
-            30,   90,   0,
-            30,   90,  30,
-            67,   90,  30,
-            30,   90,   0,
-            67,   90,  30,
-            67,   90,   0,
+            30, 90, 0,
+            30, 90, 30,
+            67, 90, 30,
+            30, 90, 0,
+            67, 90, 30,
+            67, 90, 0,
 
             // right of bottom
-            30,   90,   0,
-            30,  150,  30,
-            30,   90,  30,
-            30,   90,   0,
-            30,  150,   0,
-            30,  150,  30,
+            30, 90, 0,
+            30, 150, 30,
+            30, 90, 30,
+            30, 90, 0,
+            30, 150, 0,
+            30, 150, 30,
 
             // bottom
-            0,   150,   0,
-            0,   150,  30,
-            30,  150,  30,
-            0,   150,   0,
-            30,  150,  30,
-            30,  150,   0,
+            0, 150, 0,
+            0, 150, 30,
+            30, 150, 30,
+            0, 150, 0,
+            30, 150, 30,
+            30, 150, 0,
 
             // left side
-            0,   0,   0,
-            0,   0,  30,
-            0, 150,  30,
-            0,   0,   0,
-            0, 150,  30,
-            0, 150,   0,
+            0, 0, 0,
+            0, 0, 30,
+            0, 150, 30,
+            0, 0, 0,
+            0, 150, 30,
+            0, 150, 0,
         ];
 
         const texcoords = [
@@ -1000,7 +924,7 @@
             1, 0,
         ];
 
-        const normals = expandRLEData([
+        const normals = primitives.expandRLEData([
             // left column front
             // top rung front
             // middle rung front
@@ -1042,11 +966,11 @@
             6, -1, 0, 0,
         ]);
 
-        const colors = expandRLEData([
+        const colors = primitives.expandRLEData([
             // left column front
             // top rung front
             // middle rung front
-            18, 200,  70, 120,
+            18, 200, 70, 120,
 
             // left column back
             // top rung back
@@ -1088,7 +1012,7 @@
 
         const arrays = {
             position: webglUtils.createAugmentedTypedArray(3, numVerts),
-            texcoord: webglUtils.createAugmentedTypedArray(2,  numVerts),
+            texcoord: webglUtils.createAugmentedTypedArray(2, numVerts),
             normal: webglUtils.createAugmentedTypedArray(3, numVerts),
             color: webglUtils.createAugmentedTypedArray(4, numVerts, Uint8Array),
             indices: webglUtils.createAugmentedTypedArray(3, numVerts / 3, Uint16Array),
@@ -1106,22 +1030,37 @@
         return arrays;
     }
 
-    function createFlattenedFunc(vertFunc) {
-        return function(gl, ...args) {
+    static createFlattenedFunc(vertFunc) {
+        return function (gl, ...args) {
             let vertices = vertFunc(...args);
-            vertices = deindexVertices(vertices);
-            vertices = makeRandomVertexColors(vertices, {
-                vertsPerColor: 6,
-                rand: function(ndx, channel) {
-                    return channel < 3 ? ((128 + Math.random() * 128) | 0) : 255;
-                },
+            vertices = primitives.deindexVertices(vertices);
+            vertices = primitives.makeDefaultVertexColors(vertices, {
+                vertsPerColor: 6
             });
             return webglUtils.createBufferInfoFromArrays(gl, vertices);
         };
     }
 
+    static createCubeWithVertexColorsBufferInfo(gl, ...args) {
+        let func = primitives.createFlattenedFunc(primitives.createCubeVertices);
 
+        return func(gl, ...args);
+    }
 
+    static createSphereWithVertexColorsBufferInfo(gl, ...args) {
+        let func = primitives.createFlattenedFunc(primitives.createSphereVertices);
+
+        return func(gl, ...args);
+    }
+
+    static createTruncatedConeWithVertexColorsBufferInfo(gl, ...args) {
+        let func = primitives.createFlattenedFunc(primitives.createTruncatedConeVertices);
+
+        return func(gl, ...args);
+    }
+
+}
+/*
     return {
         create3DFBufferInfo: createBufferInfoFunc(create3DFVertices),
         create3DFBuffer: createBufferFunc(create3DFVertices),
@@ -1157,4 +1096,7 @@
         reorientVertices,
     };
 
+
+
 }));
+ */

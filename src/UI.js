@@ -183,20 +183,46 @@ function RotationCameraValue() {
 //TODO: Shininess Update
 
 function TranslationLightSource1Value() {
-    ExternalVector3Value('translation light_source_1');
-    if (chosenElement === null)
-        return;
-
     Main.firstLight.position = ExternalVector3Value('translation light_source_1');
 }
 
 function TranslationLightSource2Value() {
-    ExternalVector3Value('translation light_source_2');
-    if (chosenElement === null)
-        return;
-
     Main.secondLight.position = ExternalVector3Value('translation light_source_2');
 }
+
+function ColorLightSource1Value() {
+    Main.firstLight.color = ExternalVector3Value('color light_source_1');
+    for (let i = 0; i < Main.firstLight.color.length; i++) {
+        Main.firstLight.color[i] /= 255;
+    }
+}
+
+function ColorLightSource2Value() {
+    Main.secondLight.color = ExternalVector3Value('color light_source_2');
+    for (let i = 0; i < Main.secondLight.color.length; i++) {
+        Main.secondLight.color[i] /= 255;
+    }
+}
+
+function ShininessLightSource1ObjectValue() {
+    var r = document.getElementsByClassName("light_source_1 shininess range")[0];
+    var i = document.getElementsByClassName("light_source_1 shininess text")[0];
+
+    i.value = r.value;
+
+    Main.firstLight.shininess = parseFloat(i.value);
+}
+
+function ShininessLightSource2ObjectValue() {
+    var r = document.getElementsByClassName("light_source_2 shininess range")[0];
+    var i = document.getElementsByClassName("light_source_2 shininess text")[0];
+
+    i.value = r.value;
+
+    Main.secondLight.shininess = parseFloat(i.value);
+}
+
+
 
 // endregion
 

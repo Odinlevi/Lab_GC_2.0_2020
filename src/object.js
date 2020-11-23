@@ -12,6 +12,5 @@ class object {
         this.uniforms = uniforms;
 
         this.lightMult = lightMult;
-
     }
 }

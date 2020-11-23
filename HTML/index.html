@@ -138,6 +138,27 @@
                             <label>z:  </label><input value="0" type="text" class="translation light_source_1 z text" size="1">
                             <input value="0" min="-100" max="100" type="range" class="translation light_source_1 z range" oninput="TranslationLightSource1Value()">
                         </div>
+                        <div class="subblock_name">
+                            <label>Color:</label>
+                        </div>
+                        <div class="block color">
+                            <label>R:  </label><input value="255" type="text" class="color light_source_1 x text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="color light_source_1 x range" oninput="ColorLightSource1Value()">
+                            <br>
+                            <label>G:  </label><input value="255" type="text" class="color light_source_1 y text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="color light_source_1 y range" oninput="ColorLightSource1Value()">
+                            <br>
+                            <label>B:  </label><input value="255" type="text" class="color light_source_1 z text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="color light_source_1 z range" oninput="ColorLightSource1Value()">
+                        </div>
+                        <div class="subblock_name">
+                            <label>Shininess:</label>
+                        </div>
+                        <div class="block shininess">
+                            <input value="10" min="0" max="100" step="0.1" type="range" class="shininess light_source_1 range" oninput="ShininessLightSource1ObjectValue()">
+                            <br>
+                            <input value="10" type="text" class="shininess light_source_1 text" size="1">
+                        </div>
                     </div>
                 </div>
                 <div class="column light_source_2">
@@ -155,6 +176,27 @@
                             <br>
                             <label>z:  </label><input value="0" type="text" class="translation light_source_2 z text" size="1">
                             <input value="0" min="-100" max="100" type="range" class="translation light_source_2 z range" oninput="TranslationLightSource2Value()">
+                        </div>
+                        <div class="subblock_name">
+                            <label>Color:</label>
+                        </div>
+                        <div class="block color">
+                            <label>R:  </label><input value="255" type="text" class="color light_source_2 x text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="color light_source_2 x range" oninput="ColorLightSource2Value()">
+                            <br>
+                            <label>G:  </label><input value="255" type="text" class="color light_source_2 y text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="color light_source_2 y range" oninput="ColorLightSource2Value()">
+                            <br>
+                            <label>B:  </label><input value="255" type="text" class="color light_source_2 z text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="color light_source_2 z range" oninput="ColorLightSource2Value()">
+                        </div>
+                        <div class="subblock_name">
+                            <label>Shininess:</label>
+                        </div>
+                        <div class="block shininess">
+                            <input value="10" min="0" max="100" step="0.1" type="range" class="shininess light_source_2 range" oninput="ShininessLightSource2ObjectValue()">
+                            <br>
+                            <input value="10" type="text" class="shininess light_source_2 text" size="1">
                         </div>
                     </div>
                 </div>
