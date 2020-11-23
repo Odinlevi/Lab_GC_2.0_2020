@@ -50,12 +50,12 @@ body {
 
 }
 
-.light_source_1 {
+.column.light_source_1 {
     width: 50%;
     height: 100%;
 }
 
-.light_source_2 {
+.column.light_source_2 {
     width: 50%;
     height: 100%;
 }

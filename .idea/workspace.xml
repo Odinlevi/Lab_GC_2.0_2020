@@ -19,17 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7e642e91-e03f-42c6-a426-54f6252bfed7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/camera.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/m4.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/objInfo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/primitives.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/v3.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webgl-utils.js" afterDir="false" />
+    <list default="true" id="7e642e91-e03f-42c6-a426-54f6252bfed7" name="Default Changelist" comment="Update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HTML/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/HTML/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Style/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/m4.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/m4.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/object.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/object.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,7 +88,19 @@
       <workItem from="1605946732362" duration="29618000" />
       <workItem from="1605987375825" duration="608000" />
       <workItem from="1605988053410" duration="683000" />
+      <workItem from="1605990620132" duration="891000" />
+      <workItem from="1606036899111" duration="2868000" />
+      <workItem from="1606076098456" duration="516000" />
+      <workItem from="1606130169667" duration="10945000" />
     </task>
+    <task id="LOCAL-00001" summary="Update">
+      <created>1606045419674</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606045419674</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -110,15 +118,28 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="586" y="198" key="#Inspections" timestamp="1602409061378">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="586" y="198" key="#Inspections/0.0.1920.1040@0.0.1920.1040" timestamp="1602409061378" />
-    <state x="580" y="185" key="FileChooserDialogImpl" timestamp="1605955858709">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="696" y="224" key="FileChooserDialogImpl" timestamp="1606141650732">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1605955858709" />
+    <state x="696" y="224" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1606141650732" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1606045424779">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1606045424779" />
+    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606130281740">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1606130281740" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1602423211219">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -57,16 +57,15 @@ function DeleteElement() {
 function ChooseObject() {
     Array.from(document.getElementsByClassName("active"))
         .forEach(element => element.classList.remove("active"));
+
     chosenElement = this;
     chosenElement.classList.add("active");
 
-    // UPDATE
     UpdateChosenElement(chosenElement);
 }
 
 function UpdateChosenElement(chosenElement) {
-    const objectId = chosenElement.id;
-    const object = Main.objects[objectId];
+    const object = Main.objects[chosenElement.id];
 
     InternalTranslationObjectValue(object.position);
     InternalRotationObjectValue(object.rotation);
@@ -107,7 +106,6 @@ function ExternalRotationObjectValue() {
 }
 
 function ExternalScaleObjectValue() {
-    //ExternalVector3Value('object rotation');
     var r = document.getElementsByClassName("object scale range")[0];
     var i = document.getElementsByClassName("object scale text")[0];
 
@@ -180,13 +178,30 @@ function RotationCameraValue() {
 
 // endregion
 
-function UI() {
-    Main.construct();
+// region Light
+
+//TODO: Shininess Update
+
+function TranslationLightSource1Value() {
+    ExternalVector3Value('translation light_source_1');
+    if (chosenElement === null)
+        return;
+
+    Main.firstLight.position = ExternalVector3Value('translation light_source_1');
 }
 
+function TranslationLightSource2Value() {
+    ExternalVector3Value('translation light_source_2');
+    if (chosenElement === null)
+        return;
+
+    Main.secondLight.position = ExternalVector3Value('translation light_source_2');
+}
+
+// endregion
+
 document.addEventListener("DOMContentLoaded", function() {
-    // this function runs when the DOM is ready, i.e. when the document has been parsed
-    UI();
+    Main.construct();
 });
 
 

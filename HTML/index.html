@@ -88,9 +88,9 @@
                     <input value="2000" min="1" max="4000" step="1" type="range" class="camera zFar utility y range" oninput="UtilityCameraValue()">
                     <input value="60" min="1" max="180" step="1" type="range" class="camera FOV utility z range" oninput="UtilityCameraValue()">
                     <br>
-                    <label>zNear:</label><input value="0" type="text" class="camera zNear utility x text" size="1">
-                    <label>zFar:</label><input value="0" type="text" class="camera zFar utility y text" size="1">
-                    <label>FOV:</label><input value="0" type="text" class="camera FOV utility z text" size="1">
+                    <label>zNear:</label><input value="1" type="text" class="camera zNear utility x text" size="1">
+                    <label>zFar:</label><input value="2000" type="text" class="camera zFar utility y text" size="1">
+                    <label>FOV:</label><input value="60" type="text" class="camera FOV utility z text" size="1">
                 </div>
                 <div class="subblock_name">
                     <label>Translation:</label>
@@ -129,14 +129,14 @@
                             <label>Translation:</label>
                         </div>
                         <div class="block translation">
-                            <label>x:  </label><input value="0" type="text" class="translation x text" size="1">
-                            <input value="0" min="-100" max="100" type="range" class="translation x range" oninput="TranslationLightSource1Value()">
+                            <label>x:  </label><input value="-15" type="text" class="translation light_source_1 x text" size="1">
+                            <input value="-15" min="-100" max="100" type="range" class="translation light_source_1 x range" oninput="TranslationLightSource1Value()">
                             <br>
-                            <label>y:  </label><input value="0" type="text" class="translation y text" size="1">
-                            <input value="0" min="-100" max="100" type="range" class="translation y range" oninput="TranslationLightSource1Value()">
+                            <label>y:  </label><input value="0" type="text" class="translation light_source_1 y text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation light_source_1 y range" oninput="TranslationLightSource1Value()">
                             <br>
-                            <label>z:  </label><input value="0" type="text" class="translation z text" size="1">
-                            <input value="0" min="-100" max="100" type="range" class="translation z range" oninput="TranslationLightSource1Value()">
+                            <label>z:  </label><input value="0" type="text" class="translation light_source_1 z text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation light_source_1 z range" oninput="TranslationLightSource1Value()">
                         </div>
                     </div>
                 </div>
@@ -147,14 +147,14 @@
                             <label>Translation:</label>
                         </div>
                         <div class="block translation">
-                            <label>x:  </label><input value="0" type="text" class="translation x text" size="1">
-                            <input value="0" min="-100" max="100" type="range" class="translation x range" oninput="TranslationLightSource1Value()">
+                            <label>x:  </label><input value="15" type="text" class="translation light_source_2 x text" size="1">
+                            <input value="15" min="-100" max="100" type="range" class="translation light_source_2 x range" oninput="TranslationLightSource2Value()">
                             <br>
-                            <label>y:  </label><input value="0" type="text" class="translation y text" size="1">
-                            <input value="0" min="-100" max="100" type="range" class="translation y range" oninput="TranslationLightSource1Value()">
+                            <label>y:  </label><input value="0" type="text" class="translation light_source_2 y text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation light_source_2 y range" oninput="TranslationLightSource2Value()">
                             <br>
-                            <label>z:  </label><input value="0" type="text" class="translation z text" size="1">
-                            <input value="0" min="-100" max="100" type="range" class="translation z range" oninput="TranslationLightSource1Value()">
+                            <label>z:  </label><input value="0" type="text" class="translation light_source_2 z text" size="1">
+                            <input value="0" min="-100" max="100" type="range" class="translation light_source_2 z range" oninput="TranslationLightSource2Value()">
                         </div>
                     </div>
                 </div>
@@ -169,36 +169,116 @@
     <!-- vertex shader -->
     <script id="vertex-shader-3d" type="x-shader/x-vertex">
         attribute vec4 a_position;
-        attribute vec4 a_color;
-        attribute vec2 a_texcoord;
+    attribute vec4 a_color;
+    attribute vec3 a_normal;
+    attribute vec2 a_texcoord;
 
-        uniform mat4 u_matrix;
+    uniform mat4 u_matrix;
+    uniform mat4 u_world;
+    uniform mat4 u_worldInverse;
 
-        varying vec4 v_color;
-        varying vec2 v_texcoord;
+    varying vec4 v_color;
+    varying vec3 v_normal;
+    varying vec4 v_position;
 
-        void main() {
-          gl_Position = u_matrix * a_position;
+    varying vec3 v_vertex;
 
-          v_color = a_color;
-          v_texcoord = a_texcoord;
-        }
+    varying vec2 v_texcoord;
+
+    void main() {
+        gl_Position = u_matrix * a_position;
+
+        v_normal = mat3(u_worldInverse) * a_normal;
+        v_vertex = (u_world * a_position).xyz;
+        v_color = a_color;
+        v_position = a_position;
+        v_texcoord = a_texcoord;
+    }
     </script>
 
     <!-- fragment shader -->
     <script id="fragment-shader-3d" type="x-shader/x-fragment">
-        precision mediump float;
+            precision mediump float;
 
-        varying vec4 v_color;
+    uniform float u_lightMult;
 
-        uniform sampler2D u_texture;
-        uniform vec4 u_colorMult;
+    uniform vec3 u_firstLightPosition;
+    uniform vec3 u_firstLightColor;
+    uniform float u_firstLightShininess;
+    uniform float u_firstLightAttenuation;
 
-        varying vec2 v_texcoord;
+    uniform vec3 u_secondLightPosition;
+    uniform vec3 u_secondLightColor;
+    uniform float u_secondLightShininess;
+    uniform float u_secondLightAttenuation;
 
-        void main() {
-            gl_FragColor = texture2D(u_texture, v_texcoord) * v_color;// * color;// * colorMult;
-        }
+    uniform vec3 u_ambientColor;
+
+    uniform sampler2D u_texture;
+
+    varying vec4 v_color;
+    varying vec3 v_normal;
+    varying vec3 v_vertex;
+    varying vec2 v_texcoord;
+
+    vec3 lightCalculation(vec3 normal,
+                        vec3 position,
+                        vec3 color,
+                        float shininess,
+                        float attenuation) {
+
+        vec3 lightDirection = position - v_vertex;
+        float lightDistance = length(lightDirection);
+        lightDirection = normalize(lightDirection);
+
+        float diffuseValue = dot(normal, lightDirection);
+        diffuseValue = clamp(diffuseValue, 0.0, 1.0);
+
+        vec3 diffuseColor = vec3(v_color) * diffuseValue * color;
+
+        vec3 refl = 2.0 * dot(normal, lightDirection) * normal - lightDirection;
+        refl = normalize(refl);
+
+        vec3 cameraDirection = -1.0 * v_vertex;
+        cameraDirection = normalize(cameraDirection);
+
+        float specularValue = dot(refl, cameraDirection);
+        specularValue = clamp(specularValue, 0.0, 1.0);
+        specularValue = pow(specularValue, shininess);
+
+        vec3 specularColor = color * specularValue;
+
+        float att = 1.0 / (1.0 + attenuation * lightDistance);
+
+        vec3 returnColor = att * (diffuseColor + specularColor);
+        returnColor = clamp(returnColor, 0.0, 1.0);
+
+        return returnColor;
+    }
+
+    void main() {
+        vec3 ambientColor = u_ambientColor * vec3(v_color);
+
+        vec3 normal = normalize(v_normal);
+
+        vec3 firstColorLight = lightCalculation(normal,
+        u_firstLightPosition,
+        u_firstLightColor,
+        u_firstLightShininess,
+        u_firstLightAttenuation);
+
+        vec3 secondColorLight = lightCalculation(normal,
+        u_secondLightPosition,
+        u_secondLightColor,
+        u_secondLightShininess,
+        u_secondLightAttenuation);
+
+        vec3 light = ambientColor + firstColorLight + secondColorLight;
+        light = mix(vec3(v_color), light, u_lightMult);
+        vec4 color = vec4(light, v_color.a);
+
+        gl_FragColor = texture2D(u_texture, v_texcoord) * color;
+    }
     </script>
 
     <script src="../src/UI.js"></script>

@@ -1,7 +1,7 @@
 "use strict";
 
 class object {
-    constructor(programInfo, bufferInfo, uniforms) {
+    constructor(programInfo, bufferInfo, uniforms, lightMult) {
         this.position = [0, 0, 0];
         this.rotation = [0, 0, 0];
         this.scale = [1, 1, 1];
@@ -10,6 +10,8 @@ class object {
         this.bufferInfo  = bufferInfo;
 
         this.uniforms = uniforms;
+
+        this.lightMult = lightMult;
 
     }
 }

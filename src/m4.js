@@ -57,6 +57,16 @@
      * @param {Matrix4} [dst] optional matrix to store result
      * @return {Matrix4} dst or a new matrix if none provided
      */
+
+    function one() {
+        return [
+            1, 1, 1, 1,
+            1, 1, 1, 1,
+            1, 1, 1, 1,
+            1, 1, 1, 1
+        ];
+    }
+
     function multiply(a, b, dst) {
         dst = dst || new MatType(16);
         var b00 = b[0 * 4 + 0];
@@ -1391,6 +1401,7 @@
     }
 
     return {
+        one: one,
         copy: copy,
         lookAt: lookAt,
         addVectors: addVectors,

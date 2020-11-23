@@ -7,6 +7,54 @@ class Main {
         Main.programInfo = webglUtils.createProgramInfo(Main.gl, ["vertex-shader-3d", "fragment-shader-3d"]);
 
         Main.objects = [];
+        Main.lightSourceObjects = [];
+
+        Main.firstLight = {
+            position: [-15, 0, 0],
+            color: [1, 1, 1],
+
+            shininess: 20,
+            attenuation: .1,
+
+            /*
+            object: Main.CreateObj(
+                Main.shapes.sphere,
+                Main.lightObjects
+            ),
+                objectScale: new vector3(.2, .2, .2)
+             */
+        }
+
+        Main.secondLight = {
+            position: [15, 0, 0],
+            color: [1, 1, 1],
+
+            shininess: 20,
+            attenuation: .1,
+
+            /*
+            object: Main.CreateObj(
+                Main.shapes.sphere,
+                Main.lightObjects
+            ),
+                objectScale: new vector3(.2, .2, .2)
+             */
+        }
+
+        Main.lightSourceObjects.push(Main.firstLight.object, Main.secondLight.object);
+
+        /*
+        Main.lightPosition = Main.gl.getUniformLocation(
+            Main.programInfo.program,
+            "u_lightPosition"
+        );
+
+
+        Main.lightTarget = Main.gl.getUniformLocation(
+            Main.programInfo.program,
+            "u_lightTarget"
+        );
+        */
 
         if (!Main.gl) {
             return;
@@ -17,15 +65,14 @@ class Main {
         requestAnimationFrame(Main.DrawScene);
     }
 
-
     static BuffersInfo(name, objText) {
         switch (name) {
             case "cube":
                 return primitives.createCubeWithVertexColorsBufferInfo(Main.gl, 20);
             case "cone":
-                return primitives.createTruncatedConeWithVertexColorsBufferInfo(Main.gl, 10, 0, 20, 20, 1, true, false);
+                return primitives.createTruncatedConeWithVertexColorsBufferInfo(Main.gl, 10, 0, 20, 120, 1, true, false);
             case "sphere":
-                return primitives.createSphereWithVertexColorsBufferInfo(Main.gl, 10, 20, 10);
+                return primitives.createSphereWithVertexColorsBufferInfo(Main.gl, 10, 120, 60);
             case "obj":
                 return objInfo.createObj(Main.gl, objText)[0];
         }
@@ -64,8 +111,8 @@ class Main {
         return cameraProperties;
     }
 
-    static computeMatrix(object, viewProjectionMatrix) {
-        let matrix = m4.translate(viewProjectionMatrix,
+    static computeMatrix(object, matrix) {
+        matrix = m4.translate(matrix,
             object.position[0],
             object.position[1],
             object.position[2]);
@@ -87,13 +134,31 @@ class Main {
                     u_colorMult: [1, 1, 1, 1],
                     u_matrix: m4.identity(),
                     u_texture: Main.DefaultTexture(),
+
+                    u_world: m4.one(),
+                    u_worldInverse: m4.one(),
+
+                    u_ambientColor: [.2, .2, .2],
+
+                    u_lightMult: 1,
+
+                    u_firstLightPosition: [20, 0, 20],
+                    u_firstLightColor: [1, 1, 1],
+                    u_firstLightShininess: 20,
+                    u_firstLightAttenuation: .1,
+
+                    u_secondLightPosition: [-20, 0, 0],
+                    u_secondLightColor: [1, 1, 1],
+                    u_secondLightShininess: 20,
+                    u_secondLightAttenuation: .1,
                 },
+                1
             )
         );
     }
 
     static DeleteObject(objectId) {
-        Main.objects.splice(objectId, 1);
+        Main.objects[objectId] = null;
     }
 
     static DefaultTexture() {
@@ -156,6 +221,8 @@ class Main {
 
     static CheckObjects() {
         console.log(Main.objects);
+        console.log(Main.firstLight);
+        console.log(Main.secondLight);
     }
 
     static DrawScene() {
@@ -174,7 +241,26 @@ class Main {
 
 
         Main.objects.forEach(function(object) {
-                object.uniforms.u_matrix = Main.computeMatrix(object, viewProjectionMatrix);
+            if (object != null) {
+                object.uniforms.u_world = Main.computeMatrix(object, m4.identity());
+                object.uniforms.u_matrix = m4.multiply(viewProjectionMatrix, object.uniforms.u_world);
+                object.uniforms.u_worldInverse = m4.inverse(object.uniforms.u_world);
+                object.uniforms.u_worldInverse = m4.transpose(object.uniforms.u_worldInverse);
+                object.uniforms.u_ambientColor = [.2, .2, .2]; //camera ambient color
+                object.uniforms.u_lightMult = object.lightMult;
+
+                object.uniforms.u_firstLightPosition = Main.firstLight.position
+                object.uniforms.u_firstLightColor = Main.firstLight.color;
+
+                object.uniforms.u_firstdLightShininess = Main.firstLight.shininess;
+                object.uniforms.u_firstdLightAttenuation = Main.firstLight.attenuation;
+
+                object.uniforms.u_secondLightPosition = Main.secondLight.position;
+                object.uniforms.u_firstLightColor = Main.secondLight.color;
+
+                object.uniforms.u_secondLightShininess = Main.secondLight.shininess;
+                object.uniforms.u_secondLightAttenuation = Main.secondLight.attenuation;
+            }
             }
         )
 
@@ -182,24 +268,26 @@ class Main {
         let lastUsedBufferInfo = null;
 
         Main.objects.forEach(function(object) {
-            const programInfo = object.programInfo;
-            const bufferInfo = object.bufferInfo;
+            if (object != null) {
+                const programInfo = object.programInfo;
+                const bufferInfo = object.bufferInfo;
 
-            let bindBuffers = false;
+                let bindBuffers = false;
 
-            if (programInfo !== lastUsedProgramInfo) {
-                lastUsedProgramInfo = programInfo;
-                Main.gl.useProgram(programInfo.program);
+                if (programInfo !== lastUsedProgramInfo) {
+                    lastUsedProgramInfo = programInfo;
+                    Main.gl.useProgram(programInfo.program);
 
-                bindBuffers = true;
+                    bindBuffers = true;
+                }
+                if (bindBuffers || bufferInfo !== lastUsedBufferInfo) {
+                    lastUsedBufferInfo = bufferInfo;
+
+                    webglUtils.setBuffersAndAttributes(Main.gl, programInfo, bufferInfo);
+                }
+                webglUtils.setUniforms(programInfo, object.uniforms);
+                Main.gl.drawArrays(Main.gl.TRIANGLES, 0, bufferInfo.numElements);
             }
-            if (bindBuffers || bufferInfo !== lastUsedBufferInfo) {
-                lastUsedBufferInfo = bufferInfo;
-
-                webglUtils.setBuffersAndAttributes(Main.gl, programInfo, bufferInfo);
-            }
-            webglUtils.setUniforms(programInfo, object.uniforms);
-            Main.gl.drawArrays(Main.gl.TRIANGLES, 0, bufferInfo.numElements);
         });
 
 
