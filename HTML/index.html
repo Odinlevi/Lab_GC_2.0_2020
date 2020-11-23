@@ -12,16 +12,29 @@
                 <div class="block_name">
                     <label>Add objects:</label>
                 </div>
-                <div class="block create standard">
-                    <input value=" Create cube " type="button" class="create cube" onclick="CreateElement('cube')">
-                    <input value=" Create cone " type="button" class="create cone" onclick="CreateElement('cone')">
-                    <input value="Create sphere" type="button" class="create sphere" onclick="CreateElement('sphere')">
-                </div>
-                <div class="block create obj">
-                    <label>Add .obj:</label>
-                    <input id="inputObj" type="file" accept=".obj" oninput="CreateElement('obj')">
-                </div>
-                <input type="button" value="check" id="dovloeb" onclick="Main.CheckObjects()">
+                <table class="block">
+                    <tr>
+                        <div class="block create standard">
+                            <td>
+                                <input value=" Create cube " type="button" class="create cube" onclick="CreateElement('cube')">
+                            </td>
+                            <td>
+                                <input value=" Create cone " type="button" class="create cone" onclick="CreateElement('cone')">
+                            </td>
+                            <td>
+                                <input value="Create sphere" type="button" class="create sphere" onclick="CreateElement('sphere')">
+                            </td>
+                        </div>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="block create obj">
+                                <label style="padding-left: 20px">Add .obj:</label>
+                                <input id="inputObj" type="file" accept=".obj" oninput="CreateElement('obj')">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <hr>
             <div class="block objects_list">
@@ -40,30 +53,64 @@
                     <label>Translation:</label>
                 </div>
                 <div class="block translation">
-                    <input value="0" min="-100" max="100" type="range" class="object translation x range" oninput="ExternalTranslationObjectValue()">
-                    <input value="0" min="-100" max="100" type="range" class="object translation y range" oninput="ExternalTranslationObjectValue()">
-                    <input value="0" min="-100" max="100" type="range" class="object translation z range" oninput="ExternalTranslationObjectValue()">
-                    <br>
-                    <label>x:  </label><input value="0" type="text" class="object translation x text" size="1">
-                    <label>y:  </label><input value="0" type="text" class="object translation y text" size="1">
-                    <label>z:  </label><input value="0" type="text" class="object translation z text" size="1">
+                    <table class="block">
+                        <tr>
+                            <td>
+                                <input value="0" min="-100" max="100" type="range" class="object translation x range" oninput="ExternalTranslationObjectValue()">
+                            </td>
+                            <td>
+                                <input value="0" min="-100" max="100" type="range" class="object translation y range" oninput="ExternalTranslationObjectValue()">
+                            </td>
+                            <td>
+                                <input value="0" min="-100" max="100" type="range" class="object translation z range" oninput="ExternalTranslationObjectValue()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>x:  </label><input value="0" type="text" class="object translation x text" size="1">
+                            </td>
+                            <td>
+                                <label>y:  </label><input value="0" type="text" class="object translation y text" size="1">
+                            </td>
+                            <td>
+                                <label>z:  </label><input value="0" type="text" class="object translation z text" size="1">
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="subblock_name">
                     <label>Rotation:</label>
                 </div>
                 <div class="block rotation">
-                    <input value="0" min="-6.3" max="6.3" step="0.1" type="range" class="object rotation x range" oninput="ExternalRotationObjectValue()">
-                    <input value="0" min="-6.3" max="6.3" step="0.1" type="range" class="object rotation y range" oninput="ExternalRotationObjectValue()">
-                    <input value="0" min="-6.3" max="6.3" step="0.1" type="range" class="object rotation z range" oninput="ExternalRotationObjectValue()">
-                    <br>
-                    <label>x:  </label><input value="0" type="text" class="object rotation x text" size="1">
-                    <label>y:  </label><input value="0" type="text" class="object rotation y text" size="1">
-                    <label>z:  </label><input value="0" type="text" class="object rotation z text" size="1">
+                    <table class="block">
+                        <tr>
+                            <td>
+                                <input value="0" min="-6.3" max="6.3" step="0.1" type="range" class="object rotation x range" oninput="ExternalRotationObjectValue()">
+                            </td>
+                            <td>
+                                <input value="0" min="-6.3" max="6.3" step="0.1" type="range" class="object rotation y range" oninput="ExternalRotationObjectValue()">
+                            </td>
+                            <td>
+                                <input value="0" min="-6.3" max="6.3" step="0.1" type="range" class="object rotation z range" oninput="ExternalRotationObjectValue()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>x:  </label><input value="0" type="text" class="object rotation x text" size="1">
+                            </td>
+                            <td>
+                                <label>y:  </label><input value="0" type="text" class="object rotation y text" size="1">
+                            </td>
+                            <td>
+                                <label>z:  </label><input value="0" type="text" class="object rotation z text" size="1">
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="subblock_name">
+                <div class="subblock_name" style="padding-left: 20px">
                     <label>Scale:</label>
                 </div>
-                <div class="block scale">
+                <div class="block scale" style="padding-left: 20px">
                     <input value="1" min="0" max="15" step="0.1" type="range" class="object scale range" oninput="ExternalScaleObjectValue()">
                     <br>
                     <input value="1" type="text" class="object scale text" size="1">
@@ -72,9 +119,12 @@
                     <label>Add texture:</label>
                 </div>
                 <div class="block add_texture">
-                    <input id="inputTex" type="file" accept="image/png, .jpeg, .jpg, image/gif" oninput="SetTexture()">
+                    <input id="inputTex" type="file" accept="image/png, .jpeg, .jpg, image/gif" style="padding-left: 20px" oninput="SetTexture()">
                 </div>
-                <div class="block delete_object">
+                <div class="subblock_name">
+                    <label>Delete object:</label>
+                </div>
+                <div class="block delete_object" style="padding-left: 20px">
                     <input value="Delete object" type="button" class="delete_object" onclick="DeleteElement()">
                 </div>
             </div>
@@ -84,37 +134,88 @@
                     <label>Camera:</label>
                 </div>
                 <div class="block rotation">
-                    <input value="1" min="1" max="1000" step="1" type="range" class="camera zNear utility x range" oninput="UtilityCameraValue()">
-                    <input value="2000" min="1" max="4000" step="1" type="range" class="camera zFar utility y range" oninput="UtilityCameraValue()">
-                    <input value="60" min="1" max="180" step="1" type="range" class="camera FOV utility z range" oninput="UtilityCameraValue()">
-                    <br>
-                    <label>zNear:</label><input value="1" type="text" class="camera zNear utility x text" size="1">
-                    <label>zFar:</label><input value="2000" type="text" class="camera zFar utility y text" size="1">
-                    <label>FOV:</label><input value="60" type="text" class="camera FOV utility z text" size="1">
+                    <table class="block">
+                        <tr>
+                            <td>
+                                <input value="1" min="1" max="1000" step="1" type="range" class="camera zNear utility x range" oninput="UtilityCameraValue()">
+                            </td>
+                            <td>
+                                <input value="2000" min="1" max="4000" step="1" type="range" class="camera zFar utility y range" oninput="UtilityCameraValue()">
+                            </td>
+                            <td>
+                                <input value="60" min="1" max="180" step="1" type="range" class="camera FOV utility z range" oninput="UtilityCameraValue()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>zNear:</label><input value="1" type="text" class="camera zNear utility x text" size="1">
+                            </td>
+                            <td>
+                                <label>zFar:</label><input value="2000" type="text" class="camera zFar utility y text" size="1">
+                            </td>
+                            <td>
+                                <label>FOV:</label><input value="60" type="text" class="camera FOV utility z text" size="1">
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="subblock_name">
                     <label>Translation:</label>
                 </div>
                 <div class="block translation">
-                    <input value="0" min="-1000" max="1000" step="1" type="range" class="camera translation x range" oninput="TranslationCameraValue()">
-                    <input value="0" min="-1000" max="1000" step="1" type="range" class="camera translation y range" oninput="TranslationCameraValue()">
-                    <input value="100" min="-1000" max="1000" step="1" type="range" class="camera translation z range" oninput="TranslationCameraValue()">
-                    <br>
-                    <label>x:  </label><input value="0" type="text" class="camera translation x text" size="1">
-                    <label>y:  </label><input value="0" type="text" class="camera translation y text" size="1">
-                    <label>z:  </label><input value="100" type="text" class="camera translation z text" size="1">
+                    <table class="block">
+                        <tr>
+                            <td>
+                                <input value="0" min="-1000" max="1000" step="1" type="range" class="camera translation x range" oninput="TranslationCameraValue()">
+                            </td>
+                            <td>
+                                <input value="0" min="-1000" max="1000" step="1" type="range" class="camera translation y range" oninput="TranslationCameraValue()">
+                            </td>
+                            <td>
+                                <input value="100" min="-1000" max="1000" step="1" type="range" class="camera translation z range" oninput="TranslationCameraValue()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>x:  </label><input value="0" type="text" class="camera translation x text" size="1">
+                            </td>
+                            <td>
+                                <label>y:  </label><input value="0" type="text" class="camera translation y text" size="1">
+                            </td>
+                            <td>
+                                <label>z:  </label><input value="100" type="text" class="camera translation z text" size="1">
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="subblock_name">
                     <label>Rotation:</label>
                 </div>
                 <div class="block rotation">
-                    <input value="0" min="0" max="360" step="1" type="range" class="camera rotation x range" oninput="RotationCameraValue()">
-                    <input value="0" min="0" max="360" step="1" type="range" class="camera rotation y range" oninput="RotationCameraValue()">
-                    <input value="0" min="0" max="360" step="1" type="range" class="camera rotation z range" oninput="RotationCameraValue()">
-                    <br>
-                    <label>x:  </label><input value="0" type="text" class="camera rotation x text" size="1">
-                    <label>y:  </label><input value="0" type="text" class="camera rotation y text" size="1">
-                    <label>z:  </label><input value="0" type="text" class="camera rotation z text" size="1">
+                    <table class="block">
+                        <tr>
+                            <td>
+                                <input value="0" min="0" max="360" step="1" type="range" class="camera rotation x range" oninput="RotationCameraValue()">
+                            </td>
+                            <td>
+                                <input value="0" min="0" max="360" step="1" type="range" class="camera rotation y range" oninput="RotationCameraValue()">
+                            </td>
+                            <td>
+                                <input value="0" min="0" max="360" step="1" type="range" class="camera rotation z range" oninput="RotationCameraValue()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>x:  </label><input value="0" type="text" class="camera rotation x text" size="1">
+                            </td>
+                            <td>
+                                <label>y:  </label><input value="0" type="text" class="camera rotation y text" size="1">
+                            </td>
+                            <td>
+                                <label>z:  </label><input value="0" type="text" class="camera rotation z text" size="1">
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <hr>

@@ -3,12 +3,6 @@ class m4 {
 
     static MatType = Float32Array;
 
-    static setDefaultType(Ctor) {
-        const OldType = m4.MatType;
-        m4.MatType = Ctor;
-        return OldType;
-    }
-
     static one() {
         return [
             1, 1, 1, 1,
@@ -71,27 +65,11 @@ class m4 {
         return dst;
     }
 
-    static addVectors(a, b, dst) {
-        dst = dst || new m4.MatType(3);
-        dst[0] = a[0] + b[0];
-        dst[1] = a[1] + b[1];
-        dst[2] = a[2] + b[2];
-        return dst;
-    }
-
     static subtractVectors(a, b, dst) {
         dst = dst || new m4.MatType(3);
         dst[0] = a[0] - b[0];
         dst[1] = a[1] - b[1];
         dst[2] = a[2] - b[2];
-        return dst;
-    }
-
-    static scaleVector(v, s, dst) {
-        dst = dst || new m4.MatType(3);
-        dst[0] = v[0] * s;
-        dst[1] = v[1] * s;
-        dst[2] = v[2] * s;
         return dst;
     }
 
@@ -111,31 +89,12 @@ class m4 {
         return Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
     }
 
-    static lengthSq(v) {
-        return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
-    }
-
     static cross(a, b, dst) {
         dst = dst || new m4.MatType(3);
         dst[0] = a[1] * b[2] - a[2] * b[1];
         dst[1] = a[2] * b[0] - a[0] * b[2];
         dst[2] = a[0] * b[1] - a[1] * b[0];
         return dst;
-    }
-
-    static dot(a, b) {
-        return (a[0] * b[0]) + (a[1] * b[1]) + (a[2] * b[2]);
-    }
-
-    static distanceSq(a, b) {
-        const dx = a[0] - b[0];
-        const dy = a[1] - b[1];
-        const dz = a[2] - b[2];
-        return dx * dx + dy * dy + dz * dz;
-    }
-
-    static distance(a, b) {
-        return Math.sqrt(m4.distanceSq(a, b));
     }
 
     static identity(dst) {
@@ -235,79 +194,6 @@ class m4 {
         return dst;
     }
 
-    static orthographic(left, right, bottom, top, near, far, dst) {
-        dst = dst || new m4.MatType(16);
-
-        dst[0] = 2 / (right - left);
-        dst[1] = 0;
-        dst[2] = 0;
-        dst[3] = 0;
-        dst[4] = 0;
-        dst[5] = 2 / (top - bottom);
-        dst[6] = 0;
-        dst[7] = 0;
-        dst[8] = 0;
-        dst[9] = 0;
-        dst[10] = 2 / (near - far);
-        dst[11] = 0;
-        dst[12] = (left + right) / (left - right);
-        dst[13] = (bottom + top) / (bottom - top);
-        dst[14] = (near + far) / (near - far);
-        dst[15] = 1;
-
-        return dst;
-    }
-
-    static frustum(left, right, bottom, top, near, far, dst) {
-        dst = dst || new m4.MatType(16);
-
-        var dx = right - left;
-        var dy = top - bottom;
-        var dz = far - near;
-
-        dst[0] = 2 * near / dx;
-        dst[1] = 0;
-        dst[2] = 0;
-        dst[3] = 0;
-        dst[4] = 0;
-        dst[5] = 2 * near / dy;
-        dst[6] = 0;
-        dst[7] = 0;
-        dst[8] = (left + right) / dx;
-        dst[9] = (top + bottom) / dy;
-        dst[10] = -(far + near) / dz;
-        dst[11] = -1;
-        dst[12] = 0;
-        dst[13] = 0;
-        dst[14] = -2 * near * far / dz;
-        dst[15] = 0;
-
-        return dst;
-    }
-
-    static translation(tx, ty, tz, dst) {
-        dst = dst || new m4.MatType(16);
-
-        dst[0] = 1;
-        dst[1] = 0;
-        dst[2] = 0;
-        dst[3] = 0;
-        dst[4] = 0;
-        dst[5] = 1;
-        dst[6] = 0;
-        dst[7] = 0;
-        dst[8] = 0;
-        dst[9] = 0;
-        dst[10] = 1;
-        dst[11] = 0;
-        dst[12] = tx;
-        dst[13] = ty;
-        dst[14] = tz;
-        dst[15] = 1;
-
-        return dst;
-    }
-
     static translate(m, tx, ty, tz, dst) {
         // This is the optimized version of
         // return multiply(m, translation(tx, ty, tz), dst);
@@ -353,31 +239,6 @@ class m4 {
         return dst;
     }
 
-    static xRotation(angleInRadians, dst) {
-        dst = dst || new m4.MatType(16);
-        var c = Math.cos(angleInRadians);
-        var s = Math.sin(angleInRadians);
-
-        dst[0] = 1;
-        dst[1] = 0;
-        dst[2] = 0;
-        dst[3] = 0;
-        dst[4] = 0;
-        dst[5] = c;
-        dst[6] = s;
-        dst[7] = 0;
-        dst[8] = 0;
-        dst[9] = -s;
-        dst[10] = c;
-        dst[11] = 0;
-        dst[12] = 0;
-        dst[13] = 0;
-        dst[14] = 0;
-        dst[15] = 1;
-
-        return dst;
-    }
-
     static xRotate(m, angleInRadians, dst) {
         // this is the optimized version of
         // return multiply(m, xRotation(angleInRadians), dst);
@@ -413,31 +274,6 @@ class m4 {
             dst[14] = m[14];
             dst[15] = m[15];
         }
-
-        return dst;
-    }
-
-    static yRotation(angleInRadians, dst) {
-        dst = dst || new m4.MatType(16);
-        var c = Math.cos(angleInRadians);
-        var s = Math.sin(angleInRadians);
-
-        dst[0] = c;
-        dst[1] = 0;
-        dst[2] = -s;
-        dst[3] = 0;
-        dst[4] = 0;
-        dst[5] = 1;
-        dst[6] = 0;
-        dst[7] = 0;
-        dst[8] = s;
-        dst[9] = 0;
-        dst[10] = c;
-        dst[11] = 0;
-        dst[12] = 0;
-        dst[13] = 0;
-        dst[14] = 0;
-        dst[15] = 1;
 
         return dst;
     }
@@ -481,31 +317,6 @@ class m4 {
         return dst;
     }
 
-    static zRotation(angleInRadians, dst) {
-        dst = dst || new m4.MatType(16);
-        var c = Math.cos(angleInRadians);
-        var s = Math.sin(angleInRadians);
-
-        dst[0] = c;
-        dst[1] = s;
-        dst[2] = 0;
-        dst[3] = 0;
-        dst[4] = -s;
-        dst[5] = c;
-        dst[6] = 0;
-        dst[7] = 0;
-        dst[8] = 0;
-        dst[9] = 0;
-        dst[10] = 1;
-        dst[11] = 0;
-        dst[12] = 0;
-        dst[13] = 0;
-        dst[14] = 0;
-        dst[15] = 1;
-
-        return dst;
-    }
-
     static zRotate(m, angleInRadians, dst) {
         // This is the optimized version of
         // return multiply(m, zRotation(angleInRadians), dst);
@@ -545,131 +356,6 @@ class m4 {
         return dst;
     }
 
-    static axisRotation(axis, angleInRadians, dst) {
-        dst = dst || new m4.MatType(16);
-
-        var x = axis[0];
-        var y = axis[1];
-        var z = axis[2];
-        var n = Math.sqrt(x * x + y * y + z * z);
-        x /= n;
-        y /= n;
-        z /= n;
-        var xx = x * x;
-        var yy = y * y;
-        var zz = z * z;
-        var c = Math.cos(angleInRadians);
-        var s = Math.sin(angleInRadians);
-        var oneMinusCosine = 1 - c;
-
-        dst[0] = xx + (1 - xx) * c;
-        dst[1] = x * y * oneMinusCosine + z * s;
-        dst[2] = x * z * oneMinusCosine - y * s;
-        dst[3] = 0;
-        dst[4] = x * y * oneMinusCosine - z * s;
-        dst[5] = yy + (1 - yy) * c;
-        dst[6] = y * z * oneMinusCosine + x * s;
-        dst[7] = 0;
-        dst[8] = x * z * oneMinusCosine + y * s;
-        dst[9] = y * z * oneMinusCosine - x * s;
-        dst[10] = zz + (1 - zz) * c;
-        dst[11] = 0;
-        dst[12] = 0;
-        dst[13] = 0;
-        dst[14] = 0;
-        dst[15] = 1;
-
-        return dst;
-    }
-
-    static axisRotate(m, axis, angleInRadians, dst) {
-        // This is the optimized version of
-        // return multiply(m, axisRotation(axis, angleInRadians), dst);
-        dst = dst || new m4.MatType(16);
-
-        var x = axis[0];
-        var y = axis[1];
-        var z = axis[2];
-        var n = Math.sqrt(x * x + y * y + z * z);
-        x /= n;
-        y /= n;
-        z /= n;
-        var xx = x * x;
-        var yy = y * y;
-        var zz = z * z;
-        var c = Math.cos(angleInRadians);
-        var s = Math.sin(angleInRadians);
-        var oneMinusCosine = 1 - c;
-
-        var r00 = xx + (1 - xx) * c;
-        var r01 = x * y * oneMinusCosine + z * s;
-        var r02 = x * z * oneMinusCosine - y * s;
-        var r10 = x * y * oneMinusCosine - z * s;
-        var r11 = yy + (1 - yy) * c;
-        var r12 = y * z * oneMinusCosine + x * s;
-        var r20 = x * z * oneMinusCosine + y * s;
-        var r21 = y * z * oneMinusCosine - x * s;
-        var r22 = zz + (1 - zz) * c;
-
-        var m00 = m[0];
-        var m01 = m[1];
-        var m02 = m[2];
-        var m03 = m[3];
-        var m10 = m[4];
-        var m11 = m[5];
-        var m12 = m[6];
-        var m13 = m[7];
-        var m20 = m[8];
-        var m21 = m[9];
-        var m22 = m[10];
-        var m23 = m[11];
-
-        dst[0] = r00 * m00 + r01 * m10 + r02 * m20;
-        dst[1] = r00 * m01 + r01 * m11 + r02 * m21;
-        dst[2] = r00 * m02 + r01 * m12 + r02 * m22;
-        dst[3] = r00 * m03 + r01 * m13 + r02 * m23;
-        dst[4] = r10 * m00 + r11 * m10 + r12 * m20;
-        dst[5] = r10 * m01 + r11 * m11 + r12 * m21;
-        dst[6] = r10 * m02 + r11 * m12 + r12 * m22;
-        dst[7] = r10 * m03 + r11 * m13 + r12 * m23;
-        dst[8] = r20 * m00 + r21 * m10 + r22 * m20;
-        dst[9] = r20 * m01 + r21 * m11 + r22 * m21;
-        dst[10] = r20 * m02 + r21 * m12 + r22 * m22;
-        dst[11] = r20 * m03 + r21 * m13 + r22 * m23;
-
-        if (m !== dst) {
-            dst[12] = m[12];
-            dst[13] = m[13];
-            dst[14] = m[14];
-            dst[15] = m[15];
-        }
-
-        return dst;
-    }
-
-    static scaling(sx, sy, sz, dst) {
-        dst = dst || new m4.MatType(16);
-
-        dst[0] = sx;
-        dst[1] = 0;
-        dst[2] = 0;
-        dst[3] = 0;
-        dst[4] = 0;
-        dst[5] = sy;
-        dst[6] = 0;
-        dst[7] = 0;
-        dst[8] = 0;
-        dst[9] = 0;
-        dst[10] = sz;
-        dst[11] = 0;
-        dst[12] = 0;
-        dst[13] = 0;
-        dst[14] = 0;
-        dst[15] = 1;
-
-        return dst;
-    }
-
     static scale(m, sx, sy, sz, dst) {
         // This is the optimized version of
         // return multiply(m, scaling(sx, sy, sz), dst);
@@ -696,183 +382,6 @@ class m4 {
         }
 
         return dst;
-    }
-
-    static compose(translation, quaternion, scale, dst) {
-        dst = dst || new m4.MatType(16);
-
-        const x = quaternion[0];
-        const y = quaternion[1];
-        const z = quaternion[2];
-        const w = quaternion[3];
-
-        const x2 = x + x;
-        const y2 = y + y;
-        const z2 = z + z;
-
-        const xx = x * x2;
-        const xy = x * y2;
-        const xz = x * z2;
-
-        const yy = y * y2;
-        const yz = y * z2;
-        const zz = z * z2;
-
-        const wx = w * x2;
-        const wy = w * y2;
-        const wz = w * z2;
-
-        const sx = scale[0];
-        const sy = scale[1];
-        const sz = scale[2];
-
-        dst[0] = (1 - (yy + zz)) * sx;
-        dst[1] = (xy + wz) * sx;
-        dst[2] = (xz - wy) * sx;
-        dst[3] = 0;
-
-        dst[4] = (xy - wz) * sy;
-        dst[5] = (1 - (xx + zz)) * sy;
-        dst[6] = (yz + wx) * sy;
-        dst[7] = 0;
-
-        dst[8] = (xz + wy) * sz;
-        dst[9] = (yz - wx) * sz;
-        dst[10] = (1 - (xx + yy)) * sz;
-        dst[11] = 0;
-
-        dst[12] = translation[0];
-        dst[13] = translation[1];
-        dst[14] = translation[2];
-        dst[15] = 1;
-
-        return dst;
-    }
-
-    static quatFromRotationMatrix(m, dst) {
-        // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
-
-        // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
-        const m11 = m[0];
-        const m12 = m[4];
-        const m13 = m[8];
-        const m21 = m[1];
-        const m22 = m[5];
-        const m23 = m[9];
-        const m31 = m[2];
-        const m32 = m[6];
-        const m33 = m[10];
-
-        const trace = m11 + m22 + m33;
-
-        if (trace > 0) {
-            const s = 0.5 / Math.sqrt(trace + 1);
-            dst[3] = 0.25 / s;
-            dst[0] = (m32 - m23) * s;
-            dst[1] = (m13 - m31) * s;
-            dst[2] = (m21 - m12) * s;
-        } else if (m11 > m22 && m11 > m33) {
-            const s = 2 * Math.sqrt(1 + m11 - m22 - m33);
-            dst[3] = (m32 - m23) / s;
-            dst[0] = 0.25 * s;
-            dst[1] = (m12 + m21) / s;
-            dst[2] = (m13 + m31) / s;
-        } else if (m22 > m33) {
-            const s = 2 * Math.sqrt(1 + m22 - m11 - m33);
-            dst[3] = (m13 - m31) / s;
-            dst[0] = (m12 + m21) / s;
-            dst[1] = 0.25 * s;
-            dst[2] = (m23 + m32) / s;
-        } else {
-            const s = 2 * Math.sqrt(1 + m33 - m11 - m22);
-            dst[3] = (m21 - m12) / s;
-            dst[0] = (m13 + m31) / s;
-            dst[1] = (m23 + m32) / s;
-            dst[2] = 0.25 * s;
-        }
-    }
-
-    static decompose(mat, translation, quaternion, scale) {
-        let sx = m4.length(mat.slice(0, 3));
-        const sy = m4.length(mat.slice(4, 7));
-        const sz = m4.length(mat.slice(8, 11));
-
-        // if determinate is negative, we need to invert one scale
-        const det = m4.determinate(mat);
-        if (det < 0) {
-            sx = -sx;
-        }
-
-        translation[0] = mat[12];
-        translation[1] = mat[13];
-        translation[2] = mat[14];
-
-        // scale the rotation part
-        const matrix = m4.copy(mat);
-
-        const invSX = 1 / sx;
-        const invSY = 1 / sy;
-        const invSZ = 1 / sz;
-
-        matrix[0] *= invSX;
-        matrix[1] *= invSX;
-        matrix[2] *= invSX;
-
-        matrix[4] *= invSY;
-        matrix[5] *= invSY;
-        matrix[6] *= invSY;
-
-        matrix[8] *= invSZ;
-        matrix[9] *= invSZ;
-        matrix[10] *= invSZ;
-
-        quatFromRotationMatrix(matrix, quaternion);
-
-        scale[0] = sx;
-        scale[1] = sy;
-        scale[2] = sz;
-    }
-
-    static determinate(m) {
-        var m00 = m[0 * 4 + 0];
-        var m01 = m[0 * 4 + 1];
-        var m02 = m[0 * 4 + 2];
-        var m03 = m[0 * 4 + 3];
-        var m10 = m[1 * 4 + 0];
-        var m11 = m[1 * 4 + 1];
-        var m12 = m[1 * 4 + 2];
-        var m13 = m[1 * 4 + 3];
-        var m20 = m[2 * 4 + 0];
-        var m21 = m[2 * 4 + 1];
-        var m22 = m[2 * 4 + 2];
-        var m23 = m[2 * 4 + 3];
-        var m30 = m[3 * 4 + 0];
-        var m31 = m[3 * 4 + 1];
-        var m32 = m[3 * 4 + 2];
-        var m33 = m[3 * 4 + 3];
-        var tmp_0 = m22 * m33;
-        var tmp_1 = m32 * m23;
-        var tmp_2 = m12 * m33;
-        var tmp_3 = m32 * m13;
-        var tmp_4 = m12 * m23;
-        var tmp_5 = m22 * m13;
-        var tmp_6 = m02 * m33;
-        var tmp_7 = m32 * m03;
-        var tmp_8 = m02 * m23;
-        var tmp_9 = m22 * m03;
-        var tmp_10 = m02 * m13;
-        var tmp_11 = m12 * m03;
-
-        var t0 = (tmp_0 * m11 + tmp_3 * m21 + tmp_4 * m31) -
-            (tmp_1 * m11 + tmp_2 * m21 + tmp_5 * m31);
-        var t1 = (tmp_1 * m01 + tmp_6 * m21 + tmp_9 * m31) -
-            (tmp_0 * m01 + tmp_7 * m21 + tmp_8 * m31);
-        var t2 = (tmp_2 * m01 + tmp_7 * m11 + tmp_10 * m31) -
-            (tmp_3 * m01 + tmp_6 * m11 + tmp_11 * m31);
-        var t3 = (tmp_5 * m01 + tmp_8 * m11 + tmp_11 * m21) -
-            (tmp_4 * m01 + tmp_9 * m11 + tmp_10 * m21);
-
-        return 1.0 / (m00 * t0 + m10 * t1 + m20 * t2 + m30 * t3);
     }
 
     static inverse(m, dst) {
@@ -961,17 +470,6 @@ class m4 {
         return dst;
     }
 
-    static transformVector(m, v, dst) {
-        dst = dst || new m4.MatType(4);
-        for (var i = 0; i < 4; ++i) {
-            dst[i] = 0.0;
-            for (var j = 0; j < 4; ++j) {
-                dst[i] += v[j] * m[j * 4 + i];
-            }
-        }
-        return dst;
-    }
-
     static transformPoint(m, v, dst) {
         dst = dst || new m4.MatType(3);
         var v0 = v[0];
@@ -999,43 +497,5 @@ class m4 {
 
         return dst;
     }
-
-    static transformNormal(m, v, dst) {
-        dst = dst || new m4.MatType(3);
-        var mi = m4.inverse(m);
-        var v0 = v[0];
-        var v1 = v[1];
-        var v2 = v[2];
-
-        dst[0] = v0 * mi[0 * 4 + 0] + v1 * mi[0 * 4 + 1] + v2 * mi[0 * 4 + 2];
-        dst[1] = v0 * mi[1 * 4 + 0] + v1 * mi[1 * 4 + 1] + v2 * mi[1 * 4 + 2];
-        dst[2] = v0 * mi[2 * 4 + 0] + v1 * mi[2 * 4 + 1] + v2 * mi[2 * 4 + 2];
-
-        return dst;
-    }
-
-    static copy(src, dst) {
-        dst = dst || new m4.MatType(16);
-
-        dst[0] = src[0];
-        dst[1] = src[1];
-        dst[2] = src[2];
-        dst[3] = src[3];
-        dst[4] = src[4];
-        dst[5] = src[5];
-        dst[6] = src[6];
-        dst[7] = src[7];
-        dst[8] = src[8];
-        dst[9] = src[9];
-        dst[10] = src[10];
-        dst[11] = src[11];
-        dst[12] = src[12];
-        dst[13] = src[13];
-        dst[14] = src[14];
-        dst[15] = src[15];
-
-        return dst;
-    }
-
 }
 

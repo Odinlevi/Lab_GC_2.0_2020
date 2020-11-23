@@ -39,7 +39,7 @@ body {
 }
 
 .object_manager {
-    height: 300px;
+    height: 340px;
 }
 
 .block.camera {
@@ -79,3 +79,14 @@ body {
     background-color: pink;
     border-style:inset;
 }
+
+.block_name {
+    text-align: center;
+    font-size: 20px;
+}
+
+.subblock_name {
+    font-size: 18px;
+    padding-left: 15px;
+}
+
