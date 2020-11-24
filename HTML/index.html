@@ -240,23 +240,36 @@
                             <input value="0" min="-100" max="100" type="range" class="translation light_source_1 z range" oninput="TranslationLightSource1Value()">
                         </div>
                         <div class="subblock_name">
-                            <label>Color:</label>
+                            <label>Diffuse color:</label>
                         </div>
-                        <div class="block color">
-                            <label>R:  </label><input value="255" type="text" class="color light_source_1 x text" size="1">
-                            <input value="255" min="0" max="255" type="range" class="color light_source_1 x range" oninput="ColorLightSource1Value()">
+                        <div class="block diffuseColor">
+                            <label>R:  </label><input value="255" type="text" class="diffuseColor light_source_1 x text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="diffuseColor light_source_1 x range" oninput="DiffuseColorLightSource1Value()">
                             <br>
-                            <label>G:  </label><input value="255" type="text" class="color light_source_1 y text" size="1">
-                            <input value="255" min="0" max="255" type="range" class="color light_source_1 y range" oninput="ColorLightSource1Value()">
+                            <label>G:  </label><input value="255" type="text" class="diffuseColor light_source_1 y text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="diffuseColor light_source_1 y range" oninput="DiffuseColorLightSource1Value()">
                             <br>
-                            <label>B:  </label><input value="255" type="text" class="color light_source_1 z text" size="1">
-                            <input value="255" min="0" max="255" type="range" class="color light_source_1 z range" oninput="ColorLightSource1Value()">
+                            <label>B:  </label><input value="255" type="text" class="diffuseColor light_source_1 z text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="diffuseColor light_source_1 z range" oninput="DiffuseColorLightSource1Value()">
+                        </div>
+                        <div class="subblock_name">
+                            <label>Specular color:</label>
+                        </div>
+                        <div class="block specularColor">
+                            <label>R:  </label><input value="255" type="text" class="specularColor light_source_1 x text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="specularColor light_source_1 x range" oninput="SpecularColorLightSource1Value()">
+                            <br>
+                            <label>G:  </label><input value="255" type="text" class="specularColor light_source_1 y text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="specularColor light_source_1 y range" oninput="SpecularColorLightSource1Value()">
+                            <br>
+                            <label>B:  </label><input value="255" type="text" class="specularColor light_source_1 z text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="specularColor light_source_1 z range" oninput="SpecularColorLightSource1Value()">
                         </div>
                         <div class="subblock_name">
                             <label>Shininess:</label>
                         </div>
                         <div class="block shininess">
-                            <input value="10" min="0" max="100" step="0.1" type="range" class="shininess light_source_1 range" oninput="ShininessLightSource1ObjectValue()">
+                            <input value="10" min="0" max="100" step="0.1" type="range" class="shininess light_source_1 range" oninput="ShininessLightSource1Value()">
                             <br>
                             <input value="10" type="text" class="shininess light_source_1 text" size="1">
                         </div>
@@ -279,27 +292,69 @@
                             <input value="0" min="-100" max="100" type="range" class="translation light_source_2 z range" oninput="TranslationLightSource2Value()">
                         </div>
                         <div class="subblock_name">
-                            <label>Color:</label>
+                            <label>Diffuse color:</label>
                         </div>
-                        <div class="block color">
-                            <label>R:  </label><input value="255" type="text" class="color light_source_2 x text" size="1">
-                            <input value="255" min="0" max="255" type="range" class="color light_source_2 x range" oninput="ColorLightSource2Value()">
+                        <div class="block diffuseColor">
+                            <label>R:  </label><input value="255" type="text" class="diffuseColor light_source_2 x text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="diffuseColor light_source_2 x range" oninput="DiffuseColorLightSource2Value()">
                             <br>
-                            <label>G:  </label><input value="255" type="text" class="color light_source_2 y text" size="1">
-                            <input value="255" min="0" max="255" type="range" class="color light_source_2 y range" oninput="ColorLightSource2Value()">
+                            <label>G:  </label><input value="255" type="text" class="diffuseColor light_source_2 y text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="diffuseColor light_source_2 y range" oninput="DiffuseColorLightSource2Value()">
                             <br>
-                            <label>B:  </label><input value="255" type="text" class="color light_source_2 z text" size="1">
-                            <input value="255" min="0" max="255" type="range" class="color light_source_2 z range" oninput="ColorLightSource2Value()">
+                            <label>B:  </label><input value="255" type="text" class="diffuseColor light_source_2 z text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="diffuseColor light_source_2 z range" oninput="DiffuseColorLightSource2Value()">
+                        </div>
+                        <div class="subblock_name">
+                            <label>Specular color:</label>
+                        </div>
+                        <div class="block specularColor">
+                            <label>R:  </label><input value="255" type="text" class="specularColor light_source_2 x text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="specularColor light_source_2 x range" oninput="SpecularColorLightSource2Value()">
+                            <br>
+                            <label>G:  </label><input value="255" type="text" class="specularColor light_source_2 y text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="specularColor light_source_2 y range" oninput="SpecularColorLightSource2Value()">
+                            <br>
+                            <label>B:  </label><input value="255" type="text" class="specularColor light_source_2 z text" size="1">
+                            <input value="255" min="0" max="255" type="range" class="specularColor light_source_2 z range" oninput="SpecularColorLightSource2Value()">
                         </div>
                         <div class="subblock_name">
                             <label>Shininess:</label>
                         </div>
                         <div class="block shininess">
-                            <input value="10" min="0" max="100" step="0.1" type="range" class="shininess light_source_2 range" oninput="ShininessLightSource2ObjectValue()">
+                            <input value="10" min="0" max="100" step="0.1" type="range" class="shininess light_source_2 range" oninput="ShininessLightSource2Value()">
                             <br>
                             <input value="10" type="text" class="shininess light_source_2 text" size="1">
                         </div>
                     </div>
+                </div>
+                <div class="subblock_name">
+                    <label>Ambient color:</label>
+                </div>
+                <div class="block Ambient">
+                    <table class="block">
+                        <tr>
+                            <td>
+                                <input value="51.2" min="0" max="255" step="1" type="range" class="color ambient x range" oninput="AmbientLightSourcesValue()">
+                            </td>
+                            <td>
+                                <input value="51.2" min="0" max="255" step="1" type="range" class="color ambient y range" oninput="AmbientLightSourcesValue()">
+                            </td>
+                            <td>
+                                <input value="51.2" min="0" max="255" step="1" type="range" class="color ambient z range" oninput="AmbientLightSourcesValue()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>R:  </label><input value="51.2" type="text" class="color ambient x text" size="1">
+                            </td>
+                            <td>
+                                <label>G:  </label><input value="51.2" type="text" class="color ambient y text" size="1">
+                            </td>
+                            <td>
+                                <label>B:  </label><input value="51.2" type="text" class="color ambient z text" size="1">
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -346,12 +401,14 @@
     uniform float u_lightMult;
 
     uniform vec3 u_firstLightPosition;
-    uniform vec3 u_firstLightColor;
+    uniform vec3 u_firstDiffuseLightColor;
+    uniform vec3 u_firstSpecularLightColor;
     uniform float u_firstLightShininess;
     uniform float u_firstLightAttenuation;
 
     uniform vec3 u_secondLightPosition;
-    uniform vec3 u_secondLightColor;
+    uniform vec3 u_secondDiffuseLightColor;
+    uniform vec3 u_secondSpecularLightColor;
     uniform float u_secondLightShininess;
     uniform float u_secondLightAttenuation;
 
@@ -366,7 +423,8 @@
 
     vec3 lightCalculation(vec3 normal,
                         vec3 position,
-                        vec3 color,
+                        vec3 diffuseColor,
+                        vec3 specularColor,
                         float shininess,
                         float attenuation) {
 
@@ -377,7 +435,7 @@
         float diffuseValue = dot(normal, lightDirection);
         diffuseValue = clamp(diffuseValue, 0.0, 1.0);
 
-        vec3 diffuseColor = vec3(v_color) * diffuseValue * color;
+        diffuseColor = vec3(v_color) * diffuseValue * diffuseColor;
 
         vec3 refl = 2.0 * dot(normal, lightDirection) * normal - lightDirection;
         refl = normalize(refl);
@@ -389,7 +447,7 @@
         specularValue = clamp(specularValue, 0.0, 1.0);
         specularValue = pow(specularValue, shininess);
 
-        vec3 specularColor = color * specularValue;
+        specularColor = specularColor * specularValue;
 
         float att = 1.0 / (1.0 + attenuation * lightDistance);
 
@@ -406,13 +464,15 @@
 
         vec3 firstColorLight = lightCalculation(normal,
         u_firstLightPosition,
-        u_firstLightColor,
+        u_firstDiffuseLightColor,
+        u_firstSpecularLightColor,
         u_firstLightShininess,
         u_firstLightAttenuation);
 
         vec3 secondColorLight = lightCalculation(normal,
         u_secondLightPosition,
-        u_secondLightColor,
+        u_secondDiffuseLightColor,
+        u_secondSpecularLightColor,
         u_secondLightShininess,
         u_secondLightAttenuation);
 

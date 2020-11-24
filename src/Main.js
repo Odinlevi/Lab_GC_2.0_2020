@@ -8,10 +8,12 @@ class Main {
 
         Main.objects = [];
         Main.lightSourceObjects = [];
+        Main.ambientColor = [.2, .2, .2];
 
         Main.firstLight = {
             position: [-15, 0, 0],
-            color: [1, 1, 1],
+            diffuseColor: [1, 1, 1],
+            specularColor: [1, 1, 1],
 
             shininess: 10,
             attenuation: .1,
@@ -19,7 +21,8 @@ class Main {
 
         Main.secondLight = {
             position: [15, 0, 0],
-            color: [1, 1, 1],
+            diffuseColor: [1, 1, 1],
+            specularColor: [1, 1, 1],
 
             shininess: 10,
             attenuation: .1,
@@ -108,17 +111,19 @@ class Main {
                     u_world: m4.one(),
                     u_worldInverse: m4.one(),
 
-                    u_ambientColor: [.2, .2, .2],
+                    u_ambientColor: Main.ambientColor,
 
                     u_lightMult: 1,
 
                     u_firstLightPosition: [-15, 0, 0],
-                    u_firstLightColor: [1, 1, 1],
+                    u_firstDiffuseLightColor: [1, 1, 1],
+                    u_firstSpecularLightColor: [1, 1, 1],
                     u_firstLightShininess: 10,
                     u_firstLightAttenuation: .1,
 
                     u_secondLightPosition: [15, 0, 0],
-                    u_secondLightColor: [1, 1, 1],
+                    u_secondDiffuseLightColor: [1, 1, 1],
+                    u_secondSpecularLightColor: [1, 1, 1],
                     u_secondLightShininess: 10,
                     u_secondLightAttenuation: .1,
                 },
@@ -210,17 +215,21 @@ class Main {
                 object.uniforms.u_matrix = m4.multiply(viewProjectionMatrix, object.uniforms.u_world);
                 object.uniforms.u_worldInverse = m4.inverse(object.uniforms.u_world);
                 object.uniforms.u_worldInverse = m4.transpose(object.uniforms.u_worldInverse);
-                object.uniforms.u_ambientColor = [.2, .2, .2];
+                object.uniforms.u_ambientColor = Main.ambientColor;
                 object.uniforms.u_lightMult = object.lightMult;
 
                 object.uniforms.u_firstLightPosition = Main.firstLight.position
-                object.uniforms.u_firstLightColor = Main.firstLight.color;
+
+                object.uniforms.u_firstDiffuseLightColor = Main.firstLight.diffuseColor;
+                object.uniforms.u_firstSpecularLightColor = Main.firstLight.specularColor;
 
                 object.uniforms.u_firstLightShininess = Main.firstLight.shininess;
                 object.uniforms.u_firstLightAttenuation = Main.firstLight.attenuation;
 
                 object.uniforms.u_secondLightPosition = Main.secondLight.position;
-                object.uniforms.u_secondLightColor = Main.secondLight.color;
+
+                object.uniforms.u_secondDiffuseLightColor = Main.secondLight.diffuseColor;
+                object.uniforms.u_secondSpecularLightColor = Main.secondLight.specularColor;
 
                 object.uniforms.u_secondLightShininess = Main.secondLight.shininess;
                 object.uniforms.u_secondLightAttenuation = Main.secondLight.attenuation;

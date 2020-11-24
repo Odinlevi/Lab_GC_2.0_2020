@@ -188,21 +188,35 @@ function TranslationLightSource2Value() {
     Main.secondLight.position = ExternalVector3Value('translation light_source_2');
 }
 
-function ColorLightSource1Value() {
-    Main.firstLight.color = ExternalVector3Value('color light_source_1');
-    for (let i = 0; i < Main.firstLight.color.length; i++) {
-        Main.firstLight.color[i] /= 255;
+function DiffuseColorLightSource1Value() {
+    Main.firstLight.diffuseColor = ExternalVector3Value('diffuseColor light_source_1');
+    for (let i = 0; i < Main.firstLight.diffuseColor.length; i++) {
+        Main.firstLight.diffuseColor[i] /= 255;
     }
 }
 
-function ColorLightSource2Value() {
-    Main.secondLight.color = ExternalVector3Value('color light_source_2');
-    for (let i = 0; i < Main.secondLight.color.length; i++) {
-        Main.secondLight.color[i] /= 255;
+function DiffuseColorLightSource2Value() {
+    Main.secondLight.diffuseColor = ExternalVector3Value('diffuseColor light_source_2');
+    for (let i = 0; i < Main.secondLight.diffuseColor.length; i++) {
+        Main.secondLight.diffuseColor[i] /= 255;
     }
 }
 
-function ShininessLightSource1ObjectValue() {
+function SpecularColorLightSource1Value() {
+    Main.firstLight.specularColor = ExternalVector3Value('specularColor light_source_1');
+    for (let i = 0; i < Main.firstLight.specularColor.length; i++) {
+        Main.firstLight.specularColor[i] /= 255;
+    }
+}
+
+function SpecularColorLightSource2Value() {
+    Main.secondLight.specularColor = ExternalVector3Value('specularColor light_source_2');
+    for (let i = 0; i < Main.secondLight.specularColor.length; i++) {
+        Main.secondLight.specularColor[i] /= 255;
+    }
+}
+
+function ShininessLightSource1Value() {
     var r = document.getElementsByClassName("light_source_1 shininess range")[0];
     var i = document.getElementsByClassName("light_source_1 shininess text")[0];
 
@@ -211,13 +225,21 @@ function ShininessLightSource1ObjectValue() {
     Main.firstLight.shininess = parseFloat(i.value);
 }
 
-function ShininessLightSource2ObjectValue() {
-    var r = document.getElementsByClassName("light_source_2 shininess range")[0];
-    var i = document.getElementsByClassName("light_source_2 shininess text")[0];
+function ShininessLightSource2Value() {
+    var r = document.getElementsByClassName("color ambient range")[0];
+    var i = document.getElementsByClassName("color ambient text")[0];
 
     i.value = r.value;
 
     Main.secondLight.shininess = parseFloat(i.value);
+}
+
+function AmbientLightSourcesValue() {
+    const color = ExternalVector3Value("color ambient");
+
+    for (let ii = 0; ii < color.length; ii++) {
+        Main.ambientColor[ii] = color[ii] /255;
+    }
 }
 
 
